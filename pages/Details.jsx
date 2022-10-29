@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "../api";
+import Link from "next/link";
 import Home from "./Home";
 export default function Third() {
   const router = useRouter();
@@ -48,7 +49,17 @@ export default function Third() {
                     <h3>{item.title}</h3>
                   </div>
                   <p class="mt-4 text-2xl p-0 text-gray-500 ">
-                    Written by <span className="ml-[5px] text-teal-500 text-2xl">{item.authors.name}</span>
+                    Written by{" "}
+                    <span className="ml-[5px] text-teal-400 text-2xl hover:text-teal-500">
+                      <Link href={{
+                        pathname: "/AuthorDetails" ,
+                        query: {id: item.author_id}
+                      }}
+                        
+                        className="">
+                        {item.authors.name}
+                      </Link>
+                    </span>
                   </p>
                   <div className=" mt-3 border-b"></div>
                   <button className="ml-auto mt-3 flex rounded border-0 bg-indigo-500 py-2 px-6 text-white hover:bg-indigo-600 focus:outline-none">
