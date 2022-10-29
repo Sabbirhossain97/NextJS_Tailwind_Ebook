@@ -6,12 +6,13 @@ export default function Third() {
   const router = useRouter();
   const query = router.query;
   const bookId = query.id;
-  console.log(bookId);
+  //console.log(bookId);
   const [booksInfo, setBooksInfo] = useState([]);
+
   const showBookDetails = async (e) => {
     let { data, error } = await supabase
-      .from("books")
-      .select("*")
+      .from("books_duplicate")
+      .select(`title,image,author_id,authors ("name")`)
       .match({ id: bookId });
     if (error) {
       console.log(error);
@@ -27,37 +28,41 @@ export default function Third() {
   return (
     <div>
       <Home />
-      <div class="bg-white">
-        <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-          <div class="grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 lg:ml-[300px] xl:gap-x-8">
-            <div class="group">
-              <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
-                <img
-                  src="https://tailwindui.com/img/ecommerce-images/category-page-01-image-card-01.jpg"
-                  alt="Person using a pen to cross a task off a productivity paper card."
-                  class="h-full w-full object-cover object-center group-hover:opacity-75"
-                />
-              </div>
-            </div>
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+          {booksInfo.map((item, key) => (
+            <li key={key} className="list-none">
+              {" "}
+              <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 lg:ml-[300px] xl:gap-x-8">
+                <div className="group">
+                  <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
+                    <img
+                      src={`https://sabbirontheweb.com` + `${item.image}`}
+                      className="h-full w-full object-cover object-center group-hover:opacity-75"
+                    />
+                  </div>
+                </div>
 
-            <a href="#" class="group">
-              <div class="mt-4 flex items-center justify-between text-base font-semibold text-gray-700">
-                <h3>Title</h3>
+                <div className="group">
+                  <div className="mt-4  flex items-center justify-between text-base font-semibold text-gray-700">
+                    <h3>{item.title}</h3>
+                  </div>
+                  <p class="mt-4 text-2xl p-0 text-gray-500 ">
+                    Written by <span className="ml-[5px] text-teal-500 text-2xl">{item.authors.name}</span>
+                  </p>
+                  <div className=" mt-3 border-b"></div>
+                  <button className="ml-auto mt-3 flex rounded border-0 bg-indigo-500 py-2 px-6 text-white hover:bg-indigo-600 focus:outline-none">
+                    {" "}
+                    Download{" "}
+                  </button>
+                </div>
               </div>
-              <p class="mt-1 text-xl p-0 text-gray-500 ">
-                Written by author_name
-              </p>
-              <div class=" mt-5 border-b"></div>
-              <button class="ml-auto mt-3 flex rounded border-0 bg-indigo-500 py-2 px-6 text-white hover:bg-indigo-600 focus:outline-none">
-                {" "}
-                Download{" "}
-              </button>
-            </a>
-          </div>
+            </li>
+          ))}
         </div>
       </div>
       {/* <!-- author information --> */}
-      <div className="w-1/2 mx-auto mt-[100px]">
+      {/* <div className="w-1/2 mx-auto mt-[100px]">
         <div>
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             Author Information
@@ -93,7 +98,7 @@ export default function Third() {
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Update
-                  </button> */}
+                  </button> 
                 </span>
               </dd>
             </div>
@@ -109,7 +114,7 @@ export default function Third() {
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Update
-                  </button> */}
+                  </button> 
                 </span>
               </dd>
             </div>
@@ -129,7 +134,7 @@ export default function Third() {
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Update
-                  </button> */}
+                  </button> 
                 </span>
               </dd>
             </div>
@@ -216,10 +221,10 @@ export default function Third() {
                   </li>
                 </ul>
               </dd>
-            </div> */}
+            </div> 
           </dl>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
