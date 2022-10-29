@@ -12,7 +12,8 @@ export default function Index() {
     const [authorCount, setAuthorCount] = useState(2)
     const [categories, setCategories] = useState([])
     const [booksFromCategory, setBooksFromCategory] = useState([])
-    const [getBookId,setGetBookId]=useState(null)
+    const [searchQuery, setSearchQuery] = useState(null);
+    const [searchedItem, setShowSearchedItem]= useState([])
 
 const getBooks = async (id) => {
 
@@ -32,9 +33,7 @@ const getBooks = async (id) => {
         else {
             let { data, error } = await supabase
                 .from('books_duplicate')
-                .select('*')
-                
-
+                .select('*')               
             if (error) {
                 console.log(error)
             } else {
@@ -93,6 +92,20 @@ const getBooks = async (id) => {
     
     }
 
+    const getSearchedBooks= async(e)=>{
+       e.preventDefault();
+        let { data, error } = await supabase
+          .from("books_duplicate")
+          .select()
+          .textSearch("title", searchQuery);
+    if (error) {
+      console.log(error);
+    } else {
+      setShowSearchedItem(data)
+      console.log(data);
+    }
+    }
+
 useEffect(() => {
     getBooks()
 }, [])
@@ -108,7 +121,7 @@ useEffect(() => {
 
  return (
    <div>
-   <Home />
+     <Home />
 
      <div className="bg-white">
        <div className="relative z-40 lg:hidden" role="dialog" aria-modal="true">
@@ -302,43 +315,40 @@ useEffect(() => {
        </div>
 
        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-         <div className="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
-           {/* <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-             Bangla Ebook
-           </h1> */}
-
-           <div className="flex items-center">
-             <div className="relative inline-block text-left">
-               <div></div>
+         <div className="flex justify-end border-b border-gray-200 pt-24 pb-6">
+           <div className="flex items-end justify-end">
+             {/* search */}
+             <div className="relative w-[500px]">
+               <div className="pointer-events-none absolute inset-y-0  flex items-center pl-3">
+                 <svg
+                   className="h-5 w-5 text-black"
+                   xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 20 20"
+                   fill="currentColor"
+                   aria-hidden="true"
+                 >
+                   <path
+                     fillRule="evenodd"
+                     d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                     clipRule="evenodd"
+                   />
+                 </svg>
+               </div>
+               <form onSubmit={(e)=>getSearchedBooks(e)}>
+               <input
+                 
+                 className="block w-[500px] rounded-md border border-gray-400 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                 placeholder="Find Books..."
+                 type="text"
+                 onChange={(e)=>setSearchQuery(e.target.value)}
+               />
+               </form>
              </div>
-
-             <button
-               type="button"
-               className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-             >
-               <span className="sr-only">Filters</span>
-               <svg
-                 className="h-5 w-5"
-                 aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 20 20"
-                 fill="currentColor"
-               >
-                 <path
-                   fillRule="evenodd"
-                   d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 018 18.25v-5.757a2.25 2.25 0 00-.659-1.591L2.659 6.22A2.25 2.25 0 012 4.629V2.34a.75.75 0 01.628-.74z"
-                   clipRule="evenodd"
-                 />
-               </svg>
-             </button>
+             {/* search */}
            </div>
          </div>
 
          <section aria-labelledby="products-heading" className="pt-6 pb-24">
-           <h2 id="products-heading" className="sr-only">
-             Products
-           </h2>
-
            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
              <form className="hidden lg:block">
                <div className="border-b border-gray-200 py-6">
@@ -507,7 +517,66 @@ useEffect(() => {
                            </div>
                          </li>
                        ))
-                     : booksInfo.map((item) => (
+                     : searchQuery ? searchedItem.map((item)=>(
+                         <li key={item.id} className="relative">
+                           <Link
+                             href={{
+                               pathname: "/Details",
+                               query: { id: item.id },
+                             }}
+                           >
+                             <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                               <img
+                                 src={
+                                   item.image === "undefined"
+                                     ? "https://i.imgur.com/bbMzfOf.jpg"
+                                     : `https://sabbirontheweb.com` +
+                                       `${item.image}`
+                                 }
+                                 alt=""
+                                 className=" object-cover group-hover:opacity-75"
+                               />
+
+                               <button
+                                 type="button"
+                                 className="absolute inset-0 focus:outline-none"
+                               >
+                                 <span className="sr-only">
+                                   View details for IMG_4985.HEIC
+                                 </span>
+                               </button>
+                             </div>
+                           </Link>
+                           <p className="mt-2 block truncate text-sm font-medium text-gray-900">
+                             {item.title}
+                           </p>
+                           <div className="flex flex-row mt-[3px]">
+                             <svg
+                               xmlns="http://www.w3.org/2000/svg"
+                               color="blue"
+                               fill="none"
+                               viewBox="0 0 24 24"
+                               strokeWidth="1.5"
+                               stroke="currentColor"
+                               className="inline w-5 h-5"
+                             >
+                               <path
+                                 strokeLinecap="round"
+                                 strokeLinejoin="round"
+                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                               />
+                             </svg>
+                             <a
+                               href={
+                                 `https://sabbirontheweb.com` + `${item.link}`
+                               }
+                               className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
+                             >
+                               Download
+                             </a>
+                           </div>
+                         </li>
+                     )) : booksInfo.map((item) => (
                          <li key={item.id} className="relative">
                            <Link
                              href={{

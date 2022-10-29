@@ -3,21 +3,21 @@ import React from 'react'
 export default function Home() {
   return (
     <div>
-      <div class="bg-zinc-700 h-16 shadow-sm lg:static lg:overflow-y-visible">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class=" flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
-            <div class="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
-              <div class="flex flex-shrink-0 items-center  ">
-                <a href="#" class="text-white text-xl mt-[15px]">
+      <div className="bg-zinc-700 h-16 shadow-sm lg:static lg:overflow-y-visible">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className=" flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
+            <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
+              <div className="flex flex-shrink-0 items-center  ">
+                <a href="#" className="text-white text-xl mt-[15px]">
                   <span className="text-gray-300">Bangla</span>
                   <span className="text-cyan-300 ml-[5px]">ebook</span>
                 </a>
               </div>
             </div>
-            <div class="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-              <div class="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
-                <div class="w-full">
-                  <label for="search" class="sr-only">
+            <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
+              <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
+                <div className="w-full">
+                  <label htmlFor="search" className="sr-only">
                     Search
                   </label>
                   {/* <div class="relative">
@@ -31,42 +31,42 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div class="flex items-center h-full justify-center  md:absolute md:inset-y-0 md:right-0 lg:hidden">
+            <div className="flex items-center h-full justify-center  md:absolute md:inset-y-0 md:right-0 lg:hidden">
               <button
                 type="button"
-                class="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                 aria-expanded="false"
               >
-                <span class="sr-only">Open menu</span>
+                <span className="sr-only">Open menu</span>
 
                 <svg
-                  class="block h-6 w-6 mt-[10px]"
+                  className="block h-6 w-6 mt-[10px]"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
 
                 <svg
-                  class="hidden h-6 w-6"
+                  className="hidden h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
