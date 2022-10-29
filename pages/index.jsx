@@ -1,42 +1,44 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '../api'
+import Link from "next/link";
+import Home from './Home';
 
 export default function Index() {
     
     const [booksInfo, setBooksInfo] = useState([])
-    const [imageString, setImageString] = useState([])
     const [authors, setAuthors] = useState([])
     const [toggleCategories, setToggleCategories] = useState(false)
     const [authorCount, setAuthorCount] = useState(2)
     const [categories, setCategories] = useState([])
     const [booksFromCategory, setBooksFromCategory] = useState([])
+    const [getBookId,setGetBookId]=useState(null)
 
 const getBooks = async (id) => {
 
         if (id) {
 
             let { data, error } = await supabase
-                .from('books')
+                .from('books_duplicate')
                 .select('*')
                 .eq('author_id', id)
             if (error) {
                 console.log(error)
             } else {
-                // console.log(data)
+                // console.log(data.image)
                 setBooksInfo(data)
             }
         }
         else {
             let { data, error } = await supabase
-                .from('books')
+                .from('books_duplicate')
                 .select('*')
-                .range(0, 7)
+                
 
             if (error) {
                 console.log(error)
             } else {
-                // console.log(data)
+                // console.log(data.image)
                 setBooksInfo(data)
             }
         }
@@ -59,18 +61,6 @@ const getBooks = async (id) => {
             console.log(error)
         } else {
             setAuthors(data)
-        }
-    }
-
-    const getBooksImage = async (e) => {
-        let { data, error } = await supabase
-            .from('books')
-            .select('image')
-        if (error) {
-            console.log(error)
-        } else {
-            setImageString(data)
-            // console.log(data)
         }
     }
 
@@ -101,16 +91,10 @@ const getBooks = async (id) => {
             //console.log(data)
         };
     
-    
-
     }
 
 useEffect(() => {
     getBooks()
-}, [])
-
-useEffect(() => {
-    getBooksImage()
 }, [])
 
 useEffect(() => {
@@ -124,6 +108,8 @@ useEffect(() => {
 
  return (
    <div>
+   <Home />
+
      <div className="bg-white">
        <div className="relative z-40 lg:hidden" role="dialog" aria-modal="true">
          <div className="fixed inset-0 bg-black bg-opacity-25"></div>
@@ -162,6 +148,7 @@ useEffect(() => {
                      className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500"
                      aria-controls="filter-section-mobile-0"
                      aria-expanded="false"
+                     disabled
                    >
                      <span className="font-medium text-gray-900">Authors</span>
                      <span className="ml-6 flex items-center"></span>
@@ -316,42 +303,15 @@ useEffect(() => {
 
        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
          <div className="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
-           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+           {/* <h1 className="text-4xl font-bold tracking-tight text-gray-900">
              Bangla Ebook
-           </h1>
+           </h1> */}
 
            <div className="flex items-center">
              <div className="relative inline-block text-left">
-               <div>
-                 {/* <button type="button" className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
-                                        Sort
-
-                                        <svg className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                        </svg>
-                                    </button> */}
-               </div>
+               <div></div>
              </div>
 
-             <button
-               type="button"
-               className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
-             >
-               <span className="sr-only">View grid</span>
-               <svg
-                 className="h-5 w-5"
-                 aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 20 20"
-                 fill="currentColor"
-               >
-                 <path
-                   fillRule="evenodd"
-                   d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm9-9A2.25 2.25 0 0011 4.25v2.5A2.25 2.25 0 0013.25 9h2.5A2.25 2.25 0 0018 6.75v-2.5A2.25 2.25 0 0015.75 2h-2.5zm0 9A2.25 2.25 0 0011 13.25v2.5A2.25 2.25 0 0013.25 18h2.5A2.25 2.25 0 0018 15.75v-2.5A2.25 2.25 0 0015.75 11h-2.5z"
-                   clipRule="evenodd"
-                 />
-               </svg>
-             </button>
              <button
                type="button"
                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -388,6 +348,7 @@ useEffect(() => {
                      className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
                      aria-controls="filter-section-0"
                      aria-expanded="false"
+                     disabled
                    >
                      <span className="font-medium text-gray-900">Authors</span>
                      <span className="ml-6 flex items-center"></span>
@@ -396,20 +357,21 @@ useEffect(() => {
                  <div className="pt-6" id="filter-section-0">
                    <div className="space-y-4">
                      {authors.map((item) => (
-                       <li key={item.id} className="list-none">
+                       <li
+                         key={item.id}
+                         onClick={() => {
+                           getBooks(item.id);
+                           setToggleCategories(false);
+                         }}
+                         className="list-none cursor-pointer hover:bg-gray-100"
+                       >
                          <div className="flex items-center">
                            <img
                              className="relative z-30 inline-block h-10 w-10 rounded-full ring-2 ring-white"
                              src={item.image}
                              alt=""
                            />
-                           <p
-                             onClick={() => {
-                               getBooks(item.id);
-                               setToggleCategories(false);
-                             }}
-                             className="cursor-pointer ml-3 text-sm text-gray-600"
-                           >
+                           <p className="cursor-pointer ml-3 text-sm text-gray-600">
                              {item.name}
                            </p>
                          </div>
@@ -452,39 +414,42 @@ useEffect(() => {
                      className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
                      aria-controls="filter-section-1"
                      aria-expanded="false"
+                     disabled
                    >
                      <span className="font-medium text-gray-900">Category</span>
                      <span className="ml-6 flex items-center"></span>
                    </button>
                  </h3>
-                 
-                   <div className="pt-6" id="filter-section-1">
-                     <div className="space-y-4">
-                       {categories.map((item, key) => (
-                         <li key={key} className="list-none">
-                           <div className="flex items-center">
-                             <input
-                               name="category[]"
-                               onChange={() => get_books_by_category(item.id)}
-                               onClick={() => setToggleCategories(true)}
-                               value={item.id}
-                               type="radio"
-                               className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                             />
-                             <label className="ml-3 text-sm text-gray-600">
-                               {item.name}
-                             </label>
-                           </div>
-                         </li>
-                       ))}
-                     </div>
+
+                 <div className="pt-6" id="filter-section-1">
+                   <div className="space-y-4">
+                     {categories.map((item, key) => (
+                       <li key={key} className="list-none">
+                         <div className="flex items-center">
+                           <input
+                             name="category[]"
+                             onChange={() => get_books_by_category(item.id)}
+                             onClick={() => setToggleCategories(true)}
+                             value={item.id}
+                             type="radio"
+                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                           />
+                           <label className="ml-3 text-sm text-gray-600">
+                             {item.name}
+                           </label>
+                         </div>
+                       </li>
+                     ))}
                    </div>
-                 
+                 </div>
                </div>
              </form>
 
              <div className="lg:col-span-3">
                <div className="h-96 rounde d-lg border-4 p-5 border-gray-200 lg:h-full">
+                 <div className="flex justify-center">
+                   {/* {toggleCategories ? (<h1 className='text-4xl p-5 divide'>Hello</h1>) : ''}  */}
+                 </div>
                  <ul
                    role="list"
                    className="grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
@@ -499,6 +464,7 @@ useEffect(() => {
                                }
                                alt=""
                                className=" object-cover group-hover:opacity-75"
+                               onClick={() => alert()}
                              />
 
                              <button
@@ -543,25 +509,34 @@ useEffect(() => {
                        ))
                      : booksInfo.map((item) => (
                          <li key={item.id} className="relative">
-                           <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                             <img
-                               src={
-                                 `https://sabbirontheweb.com` + `${item.image}`
-                               }
-                               alt=""
-                               className=" object-cover group-hover:opacity-75"
-                             />
+                           <Link
+                             href={{
+                               pathname: "/Details",
+                               query: { id: item.id },
+                             }}
+                           >
+                             <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                               <img
+                                 src={
+                                   item.image === "undefined"
+                                     ? "https://i.imgur.com/bbMzfOf.jpg"
+                                     : `https://sabbirontheweb.com` +
+                                       `${item.image}`
+                                 }
+                                 alt=""
+                                 className=" object-cover group-hover:opacity-75"
+                               />
 
-                             <button
-                               type="button"
-                               className="absolute inset-0 focus:outline-none"
-                             >
-                               <span className="sr-only">
-                                 View details for IMG_4985.HEIC
-                               </span>
-                             </button>
-                           </div>
-
+                               <button
+                                 type="button"
+                                 className="absolute inset-0 focus:outline-none"
+                               >
+                                 <span className="sr-only">
+                                   View details for IMG_4985.HEIC
+                                 </span>
+                               </button>
+                             </div>
+                           </Link>
                            <p className="mt-2 block truncate text-sm font-medium text-gray-900">
                              {item.title}
                            </p>
