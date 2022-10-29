@@ -97,7 +97,10 @@ const getBooks = async (id) => {
         let { data, error } = await supabase
           .from("books_duplicate")
           .select()
-          .textSearch("title", searchQuery);
+          .textSearch("title", searchQuery,{
+            type: 'websearch',
+            config: 'english',
+          });
     if (error) {
       console.log(error);
     } else {
@@ -334,14 +337,13 @@ useEffect(() => {
                    />
                  </svg>
                </div>
-               <form onSubmit={(e)=>getSearchedBooks(e)}>
-               <input
-                 
-                 className="block w-[500px] rounded-md border border-gray-400 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                 placeholder="Find Books..."
-                 type="text"
-                 onChange={(e)=>setSearchQuery(e.target.value)}
-               />
+               <form onSubmit={(e) => getSearchedBooks(e)}>
+                 <input
+                   className="block w-[500px] rounded-md border border-gray-400 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                   placeholder="Find Books..."
+                   type="text"
+                   onChange={(e) => setSearchQuery(e.target.value)}
+                 />
                </form>
              </div>
              {/* search */}
@@ -458,7 +460,11 @@ useEffect(() => {
              <div className="lg:col-span-3">
                <div className="h-96 rounde d-lg border-4 p-5 border-gray-200 lg:h-full">
                  <div className="flex justify-center">
-                   {/* {toggleCategories ? (<h1 className='text-4xl p-5 divide'>Hello</h1>) : ''}  */}
+                   {/* {searchQuery ? (
+                     <h1 className="text-4xl p-5 divide">No result found</h1>
+                   ) : (
+                     <h1 className="text-4xl p-5 divide">Success</h1> */}
+                   
                  </div>
                  <ul
                    role="list"
@@ -517,7 +523,8 @@ useEffect(() => {
                            </div>
                          </li>
                        ))
-                     : searchQuery ? searchedItem.map((item)=>(
+                     : searchQuery
+                     ? searchedItem.map((item) => (
                          <li key={item.id} className="relative">
                            <Link
                              href={{
@@ -576,7 +583,8 @@ useEffect(() => {
                              </a>
                            </div>
                          </li>
-                     )) : booksInfo.map((item) => (
+                       ))
+                     : booksInfo.map((item) => (
                          <li key={item.id} className="relative">
                            <Link
                              href={{

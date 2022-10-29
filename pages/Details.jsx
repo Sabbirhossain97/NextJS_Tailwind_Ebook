@@ -1,69 +1,62 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "../api";
-
+import Home from "./Home";
 export default function Third() {
   const router = useRouter();
   const query = router.query;
-  const bookId= query.id
+  const bookId = query.id;
   console.log(bookId);
-  const [booksInfo, setBooksInfo]=useState([])
-  const showBookDetails = async(e)=>{
+  const [booksInfo, setBooksInfo] = useState([]);
+  const showBookDetails = async (e) => {
     let { data, error } = await supabase
       .from("books")
       .select("*")
-      .match({id: bookId} );
-    if(error){
-      console.log(error)
+      .match({ id: bookId });
+    if (error) {
+      console.log(error);
     } else {
-      setBooksInfo(data)
-      console.log(data)
+      setBooksInfo(data);
+      console.log(data);
     }
-  }
-  useEffect(()=>{
-    showBookDetails()
-  },[])
+  };
+  useEffect(() => {
+    showBookDetails();
+  }, []);
 
   return (
     <div>
-      <div class="mx-auto bg-white">
-        <div class="flex justify-center">
-          <section class="body-font overflow-hidden text-gray-600">
-            <div class="container mx-auto px-5 py-24">
-              {booksInfo.map((item) => (
-                <div class="mx-auto flex flex-row lg:w-4/5">
-                  <img
-                    alt="ecommerce"
-                    class="h-56 w-full rounded object-cover object-center lg:h-1/2 lg:w-1/2"
-                    src={`https://sabbirontheweb.com` + `${item.image}`}
-                  />
-                  <div class="mt-6 w-full lg:mt-0 lg:w-1/2 lg:py-6 lg:pl-10">
-                    <h1 class="title-font mb-1 text-3xl font-medium text-gray-900">
-                      {item.title}
-                    </h1>
-                    <div class="mb-4 flex"></div>
-                    <p class="leading-relaxed text-2xl">
-                      Fam locavore kickstarter distillery. Mixtape chillwave
-                      tumeric sriracha taximy chia microdosing tilde DIY. XOXO
-                      fam indxgo juiceramps cornhole raw denim forage brooklyn.
-                      Everyday carry +1 seitan poutine tumeric. Gastropub blue
-                      bottle austin listicle pour-over, neutra jean shorts
-                      keytar banjo tattooed umami cardigan.
-                    </p>
-                    <div class="mt-6 mb-5 flex items-center border-b-2 border-gray-100 pb-5"></div>
-                    <div class="flex">
-                      <button class="ml-auto flex rounded border-0 bg-indigo-500 py-2 px-6 text-white hover:bg-indigo-600 focus:outline-none">
-                        Button
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+      <Home />
+      <div class="bg-white">
+        <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+          <div class="grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 lg:ml-[300px] xl:gap-x-8">
+            <div class="group">
+              <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
+                <img
+                  src="https://tailwindui.com/img/ecommerce-images/category-page-01-image-card-01.jpg"
+                  alt="Person using a pen to cross a task off a productivity paper card."
+                  class="h-full w-full object-cover object-center group-hover:opacity-75"
+                />
+              </div>
             </div>
-          </section>
+
+            <a href="#" class="group">
+              <div class="mt-4 flex items-center justify-between text-base font-semibold text-gray-700">
+                <h3>Title</h3>
+              </div>
+              <p class="mt-1 text-xl p-0 text-gray-500 ">
+                Written by author_name
+              </p>
+              <div class=" mt-5 border-b"></div>
+              <button class="ml-auto mt-3 flex rounded border-0 bg-indigo-500 py-2 px-6 text-white hover:bg-indigo-600 focus:outline-none">
+                {" "}
+                Download{" "}
+              </button>
+            </a>
+          </div>
         </div>
       </div>
-      {/* <!-- next --> */}
+      {/* <!-- author information --> */}
       <div className="w-1/2 mx-auto mt-[100px]">
         <div>
           <h3 className="text-lg font-medium leading-6 text-gray-900">
