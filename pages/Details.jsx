@@ -13,13 +13,13 @@ export default function Third() {
   const showBookDetails = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
-      .select(`title,image,author_id,authors ("name")`)
+      .select(`title,image,author_id,authors ("name")`)     
       .match({ id: bookId });
     if (error) {
       console.log(error);
     } else {
       setBooksInfo(data);
-      console.log(data);
+     console.log(data)
     }
   };
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function Third() {
                   <div className="mt-4  flex items-center justify-between text-base font-semibold text-gray-700">
                     <h3>{item.title}</h3>
                   </div>
-                  <p class="mt-4 text-2xl p-0 text-gray-500 ">
+                  <p className="mt-4 text-2xl p-0 text-gray-500 ">
                     Written by{" "}
                     <span className="ml-[5px] text-teal-400 text-2xl hover:text-teal-500">
                       <Link href={{
