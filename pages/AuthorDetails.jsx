@@ -42,9 +42,8 @@ export default function Second() {
                 <li key={key} className="list-none">
                   <article>
                     <div>
-                      <div className="h-32 w-full object-cover lg:h-48 bg-black flex flex-col">
-                        
-                        <h1 className="text-zinc-300 text-4xl flex justify-center items-center h-36">
+                      <div className="h-32 w-full object-cover lg:h-48 bg-black flex flex-col">                     
+                        <h1 className="text-zinc-300 text-4xl flex justify-center text-center items-center h-36  md:w-4/5 lg:text-center lg:w-full">
                           {item.description[Object.keys(item.description)[0]]}
                         </h1>
                       </div>

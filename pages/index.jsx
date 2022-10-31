@@ -12,7 +12,7 @@ export default function Index() {
     const [authorCount, setAuthorCount] = useState(2)
     const [categories, setCategories] = useState([])
     const [booksFromCategory, setBooksFromCategory] = useState([])
-    const [searchQuery, setSearchQuery] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const [searchedItem, setShowSearchedItem]= useState([])
 
 const getBooks = async (id) => {
@@ -92,22 +92,22 @@ const getBooks = async (id) => {
     
     }
 
-    const getSearchedBooks= async(e)=>{
-       e.preventDefault();
-        let { data, error } = await supabase
-          .from("books_duplicate")
-          .select()
-          .textSearch("title", searchQuery,{
-            type: 'websearch',
-            config: 'english',
-          });
-    if (error) {
-      console.log(error);
-    } else {
-      setShowSearchedItem(data)
-      console.log(data);
-    }
-    }
+    // const getSearchedBooks= async(e)=>{
+    //    e.preventDefault();
+    //     let { data, error } = await supabase
+    //       .from("books_duplicate")
+    //       .select()
+    //       .textSearch("title", searchQuery,{
+    //         type: 'websearch',
+    //         config: 'english',
+    //       });
+    // if (error) {
+    //   console.log(error);
+    // } else {
+    //   setShowSearchedItem(data)
+    //   console.log(data);
+    // }
+    // }
 
 useEffect(() => {
     getBooks()
@@ -337,14 +337,14 @@ useEffect(() => {
                    />
                  </svg>
                </div>
-               <form onSubmit={(e) => getSearchedBooks(e)}>
-                 <input
-                   className="block w-[500px] rounded-md border border-gray-400 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                   placeholder="Find Books..."
-                   type="text"
-                   onChange={(e) => setSearchQuery(e.target.value)}
-                 />
-               </form>
+               {/* <form onSubmit={(e) => getSearchedBooks(e)}> */}
+               <input
+                 className="block w-[500px] rounded-md border border-gray-400 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                 placeholder="Find Books..."
+                 type="text"
+                 onChange={(e) => setSearchQuery(e.target.value)}
+               />
+               {/* </form> */}
              </div>
              {/* search */}
            </div>
@@ -503,7 +503,7 @@ useEffect(() => {
                            <p className="mt-2 block truncate text-sm font-medium text-gray-900">
                              {item.title}
                            </p>
-                           <div className="flex flex-row mt-[3px]">
+                           {/* <div className="flex flex-row mt-[3px]">
                              <svg
                                xmlns="http://www.w3.org/2000/svg"
                                color="blue"
@@ -519,78 +519,90 @@ useEffect(() => {
                                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
                                />
                              </svg>
-                             <a
+                             {/* <a
                                href={
                                  `https://sabbirontheweb.com` + `${item.link}`
                                }
                                className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
                              >
                                Download
-                             </a>
-                           </div>
+                             </a> 
+                           </div> */}
                          </li>
                        ))
                      : searchQuery
-                     ? searchedItem.map((item) => (
-                         <li key={item.id} className="relative">
-                           <Link
-                             href={{
-                               pathname: "/Details",
-                               query: { id: item.id },
-                             }}
-                           >
-                             <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                               <img
-                                 src={
-                                   item.image === "undefined"
-                                     ? "https://i.imgur.com/bbMzfOf.jpg"
-                                     : `https://sabbirontheweb.com` +
-                                       `${item.image}`
-                                 }
-                                 alt=""
-                                 className=" object-cover group-hover:opacity-75"
-                               />
+                     ? booksInfo
+                         .filter((val) => {
+                           if (searchQuery === "") {
+                             return val;
+                           } else if (
+                             val.title
+                               .toLowerCase()
+                               .includes(searchQuery.toLowerCase())
+                           ) {
+                             return val;
+                           }
+                         })
+                         .map((item) => (
+                           <li key={item.id} className="relative">
+                             <Link
+                               href={{
+                                 pathname: "/Details",
+                                 query: { id: item.id },
+                               }}
+                             >
+                               <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                                 <img
+                                   src={
+                                     item.image === "undefined"
+                                       ? "https://i.imgur.com/bbMzfOf.jpg"
+                                       : `https://sabbirontheweb.com` +
+                                         `${item.image}`
+                                   }
+                                   alt=""
+                                   className=" object-cover group-hover:opacity-75"
+                                 />
 
-                               <button
-                                 type="button"
-                                 className="absolute inset-0 focus:outline-none"
+                                 <button
+                                   type="button"
+                                   className="absolute inset-0 focus:outline-none"
+                                 >
+                                   <span className="sr-only">
+                                     View details for IMG_4985.HEIC
+                                   </span>
+                                 </button>
+                               </div>
+                             </Link>
+                             <p className="mt-2 block truncate text-sm font-medium text-gray-900">
+                               {item.title}
+                             </p>
+                             {/* <div className="flex flex-row mt-[3px]">
+                               <svg
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 color="blue"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 strokeWidth="1.5"
+                                 stroke="currentColor"
+                                 className="inline w-5 h-5"
                                >
-                                 <span className="sr-only">
-                                   View details for IMG_4985.HEIC
-                                 </span>
-                               </button>
-                             </div>
-                           </Link>
-                           <p className="mt-2 block truncate text-sm font-medium text-gray-900">
-                             {item.title}
-                           </p>
-                           <div className="flex flex-row mt-[3px]">
-                             <svg
-                               xmlns="http://www.w3.org/2000/svg"
-                               color="blue"
-                               fill="none"
-                               viewBox="0 0 24 24"
-                               strokeWidth="1.5"
-                               stroke="currentColor"
-                               className="inline w-5 h-5"
-                             >
-                               <path
-                                 strokeLinecap="round"
-                                 strokeLinejoin="round"
-                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                               />
-                             </svg>
-                             <a
-                               href={
-                                 `https://sabbirontheweb.com` + `${item.link}`
-                               }
-                               className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
-                             >
-                               Download
-                             </a>
-                           </div>
-                         </li>
-                       ))
+                                 <path
+                                   strokeLinecap="round"
+                                   strokeLinejoin="round"
+                                   d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                 />
+                               </svg>
+                               {/* <a
+                                 href={
+                                   `https://sabbirontheweb.com` + `${item.link}`
+                                 }
+                                 className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
+                               >
+                                 Download
+                               </a> 
+                             </div> */}
+                           </li>
+                         ))
                      : booksInfo.map((item) => (
                          <li key={item.id} className="relative">
                            <Link
@@ -621,10 +633,16 @@ useEffect(() => {
                                </button>
                              </div>
                            </Link>
-                           <p className="mt-2 block truncate text-sm font-medium text-gray-900">
-                             {item.title}
-                           </p>
-                           <div className="flex flex-row mt-[3px]">
+                           <Link  href={{
+                               pathname: "/Details",
+                               query: { id: item.id },
+                           }}
+                               >
+                             <p className="mt-2 cursor-pointer block truncate text-sm font-medium text-gray-900">
+                               {item.title}
+                             </p>
+                           </Link>
+                           {/* <div className="flex flex-row mt-[3px]">
                              <svg
                                xmlns="http://www.w3.org/2000/svg"
                                color="blue"
@@ -641,14 +659,14 @@ useEffect(() => {
                                />
                              </svg>
                              <a
-                               href={
-                                 `https://sabbirontheweb.com` + `${item.link}`
-                               }
+                               href={``}
                                className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
+                               download
+                               target="__self"
                              >
                                Download
                              </a>
-                           </div>
+                           </div> */}
                          </li>
                        ))}
                  </ul>

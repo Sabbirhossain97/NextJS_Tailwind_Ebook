@@ -15,11 +15,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/AuthorDetails": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/AuthorDetails.js"
-    ],
     "/Details": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

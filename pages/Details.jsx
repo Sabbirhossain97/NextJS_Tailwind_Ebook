@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { supabase } from "../api";
 import Link from "next/link";
 import Home from "./Home";
+import Slider from "./Slider";
+
 export default function Third() {
   const router = useRouter();
   const query = router.query;
@@ -51,12 +53,13 @@ export default function Third() {
                   <p className="mt-4 text-2xl p-0 text-gray-500 ">
                     Written by{" "}
                     <span className="ml-[5px] text-teal-400 text-2xl hover:text-teal-500">
-                      <Link href={{
-                        pathname: "/AuthorDetails" ,
-                        query: {id: item.author_id}
-                      }}
-                        
-                        className="">
+                      <Link
+                        href={{
+                          pathname: "/AuthorDetails",
+                          query: { id: item.author_id },
+                        }}
+                        className=""
+                      >
                         {item.authors.name}
                       </Link>
                     </span>
@@ -71,8 +74,8 @@ export default function Third() {
             </li>
           ))}
         </div>
+        <Slider />
       </div>
-     
     </div>
   );
 }
