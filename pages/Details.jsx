@@ -40,7 +40,7 @@ export default function Third() {
                 <div className="group">
                   <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
                     <img
-                      src={`https://sabbirontheweb.com` + `${item.image}`}
+                      src={item.image}
                       className="h-full w-full object-cover object-center group-hover:opacity-75"
                     />
                   </div>
@@ -74,6 +74,7 @@ export default function Third() {
             </li>
           ))}
         </div>
+        
         <Slider />
       </div>
     </div>

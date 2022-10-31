@@ -75,39 +75,25 @@ const getBooks = async (id) => {
         }
     }
 
-    const get_books_by_category = async (cat_id) => {
+    const get_books_by_category = async (id) => {
         
-       let { data, error } = await supabase.rpc("getbooksbycategory", {
-         cat_id,
-       });
-
+   
+      let { data, error } = await supabase
+        .from("books_duplicate")
+        .select('*')
+        .match({category_id: id })
+        
        if (error)
         {
             console.error(error)
         } else
          {
             setBooksFromCategory(data)
-            //console.log(data)
+            console.log(data)
         };
-    
     }
 
-    // const getSearchedBooks= async(e)=>{
-    //    e.preventDefault();
-    //     let { data, error } = await supabase
-    //       .from("books_duplicate")
-    //       .select()
-    //       .textSearch("title", searchQuery,{
-    //         type: 'websearch',
-    //         config: 'english',
-    //       });
-    // if (error) {
-    //   console.log(error);
-    // } else {
-    //   setShowSearchedItem(data)
-    //   console.log(data);
-    // }
-    // }
+ 
 
 useEffect(() => {
     getBooks()
@@ -481,8 +467,7 @@ useEffect(() => {
                              <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                                <img
                                  src={
-                                   `https://sabbirontheweb.com` +
-                                   `${item.image}`
+                                   item.image
                                  }
                                  alt=""
                                  className=" object-cover group-hover:opacity-75"
@@ -500,9 +485,16 @@ useEffect(() => {
                              </div>
                            </Link>
 
-                           <p className="mt-2 block truncate text-sm font-medium text-gray-900">
-                             {item.title}
-                           </p>
+                           <Link
+                             href={{
+                               pathname: "/Details",
+                               query: { id: item.id },
+                             }}
+                           >
+                             <p className="mt-2 block cursor-pointer truncate text-sm font-medium text-gray-900">
+                               {item.title}
+                             </p>
+                           </Link>
                            {/* <div className="flex flex-row mt-[3px]">
                              <svg
                                xmlns="http://www.w3.org/2000/svg"
@@ -554,10 +546,7 @@ useEffect(() => {
                                <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                                  <img
                                    src={
-                                     item.image === "undefined"
-                                       ? "https://i.imgur.com/bbMzfOf.jpg"
-                                       : `https://sabbirontheweb.com` +
-                                         `${item.image}`
+                                     item.image 
                                    }
                                    alt=""
                                    className=" object-cover group-hover:opacity-75"
@@ -614,10 +603,7 @@ useEffect(() => {
                              <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                                <img
                                  src={
-                                   item.image === "undefined"
-                                     ? "https://i.imgur.com/bbMzfOf.jpg"
-                                     : `https://sabbirontheweb.com` +
-                                       `${item.image}`
+                                   item.image 
                                  }
                                  alt=""
                                  className=" object-cover group-hover:opacity-75"
@@ -633,11 +619,12 @@ useEffect(() => {
                                </button>
                              </div>
                            </Link>
-                           <Link  href={{
+                           <Link
+                             href={{
                                pathname: "/Details",
                                query: { id: item.id },
-                           }}
-                               >
+                             }}
+                           >
                              <p className="mt-2 cursor-pointer block truncate text-sm font-medium text-gray-900">
                                {item.title}
                              </p>

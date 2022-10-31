@@ -147,27 +147,27 @@ export default function Second() {
                       <div className="mt-6 grid grid-cols-1  gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {/*more books from this author */}
                         <div className="relative w-full flex items-center space-x-3 rounded-lg border border-gray-300 bg-white  p-2 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400">
-                          <div class="group relative">
-                            <div class="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
+                          <div className="group relative">
+                            <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                               <img
                                 src={`https://sabbirontheweb.com` +
                                    `${item.books_duplicate[4].image}`}
                                 alt=""
-                                class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                               />
                             </div>
-                            <div class="mt-4 flex justify-between">
+                            <div className="mt-4 flex justify-between">
                               <div>
-                                <h3 class="text-sm text-gray-700">
+                                <h3 className="text-sm text-gray-700">
                                   <a href="#">
                                     <span
                                       aria-hidden="true"
-                                      class="absolute inset-0"
+                                      className="absolute inset-0"
                                     ></span>
                                     Basic Tee
                                   </a>
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500">Black</p>
+                                <p className="mt-1 text-sm text-gray-500">Black</p>
                               </div>
                             </div>
                           </div>
