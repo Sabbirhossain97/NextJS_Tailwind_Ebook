@@ -9,14 +9,18 @@ export default function Third() {
   const router = useRouter();
   const query = router.query;
   const bookId = query.id;
-  //console.log(bookId);
+  const categoryId = query.cat_id;
+  console.log(bookId);
+  console.log(categoryId);
   const [booksInfo, setBooksInfo] = useState([]);
+  const [relatedBooks, setRelatedBooks]=useState([]);
 
   const showBookDetails = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
-      .select(`title,image,author_id,authors ("name")`)     
-      .match({ id: bookId });
+      .select(`*,authors ("name")`)
+      .match({ id: bookId, category_id: categoryId });
+      
     if (error) {
       console.log(error);
     } else {
@@ -24,9 +28,26 @@ export default function Third() {
      console.log(data)
     }
   };
+  const getRelatedBooks= async(e)=>{
+    let { data, error } = await supabase
+      .from("books_duplicate")
+      .select(`*`)
+      .match({category_id: categoryId });
+
+    if (error) {
+      console.log(error);
+    } else {
+      setRelatedBooks(data);
+      console.log(data);
+    }
+  }
   useEffect(() => {
     showBookDetails();
   }, []);
+   useEffect(() => {
+     getRelatedBooks();
+   }, []);
+
 
   return (
     <div>
@@ -74,8 +95,8 @@ export default function Third() {
             </li>
           ))}
         </div>
-        
-        <Slider />
+
+        <Slider relatedBooks={relatedBooks} />
       </div>
     </div>
   );
