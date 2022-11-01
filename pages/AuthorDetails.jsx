@@ -13,9 +13,9 @@ import "swiper/css/bundle";
 export default function Second() {
   const router = useRouter();
   const pathName = router.pathname;
-  //console.log(router)
   const query = router.query;
   const authorId = query.id;
+  const authorName= query.name
   const [authorDetails, setAuthorDetails] = useState([]);
   const [booksFromAuthor, setBooksFromAuthor] = useState([]);
 
@@ -52,7 +52,7 @@ export default function Second() {
                 <li key={key} className="list-none">
                   <article>
                     <div>
-                      <div className="h-32 w-full object-cover lg:h-48 bg-black flex flex-col">
+                      <div className="h-32 w-full object-cover lg:h-48 bg-zinc-900 flex flex-col">
                         <h1 className="text-zinc-300 text-4xl flex justify-center text-center items-center h-36  md:w-4/5 lg:text-center lg:w-full">
                           {item.description[Object.keys(item.description)[0]]}
                         </h1>
@@ -89,7 +89,7 @@ export default function Second() {
                             className="-mb-px flex space-x-8"
                             aria-label="Tabs"
                           >
-                            <p className="border-pink-500 text-gray-900 text-lg whitespace-nowrap py-4 px-1 border-b-2 font-medium">
+                            <p className="border-cyan-500 text-blue-600 text-lg whitespace-nowrap py-4 px-1 border-b-2 font-medium">
                               Information
                             </p>
                           </nav>
@@ -155,17 +155,16 @@ export default function Second() {
               <div className="mt-[150px]">
                 <div>
                   <h2 className="text-lg font-medium text-gray-500 flex justify-center">
-                    More Books
+                    More Books from
                     <span className="text-blue-600 text-xl ml-[10px]">
-                      {" "}
-                      {/* {authorDetails[0].name} */}
+                      {authorName}
                     </span>
                   </h2>
                 </div>
-                <div className=" flex justify-center h-11/12 w-11/12 2xl:w-1/2 items-center mx-auto ">
+                <div className=" flex justify-center h-11/12 w-11/12 2xl:w-2/5 items-center mx-auto ">
                   <Swiper
                     modules={[Navigation, Pagination, A11y]}
-                    spaceBetween={50}
+                    spaceBetween={60}
                     slidesPerView={4}
                     navigation
                     pagination={{ clickable: true }}

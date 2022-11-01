@@ -30,7 +30,7 @@ export default function Third() {
       console.log(error);
     } else {
       setBooksInfo(data);
-      //console.log(data);
+      console.log(data);
     }
   };
   const getRelatedBooks = async (e) => {
@@ -74,20 +74,35 @@ export default function Third() {
                   <div className="mt-4  flex items-center justify-between text-base font-semibold text-gray-700">
                     <h3>{item.title}</h3>
                   </div>
-                  <p className="mt-4 text-2xl p-0 text-gray-500 ">
-                    Written by{" "}
-                    <span className="ml-[5px] text-teal-400 text-2xl hover:text-teal-500">
-                      <Link
-                        href={{
-                          pathname: "/AuthorDetails",
-                          query: { id: item.author_id },
-                        }}
-                        className=""
-                      >
-                        {item.authors.name}
-                      </Link>
-                    </span>
-                  </p>
+                  <div className="flex flex-row">
+                    <p className="mt-4 text-2xl p-0 text-gray-500 ">
+                      Written by
+                      <span className=" ml-[10px] text-blue-500 text-2xl hover:text-blue-700">
+                        <Link
+                          href={{
+                            pathname: "/AuthorDetails",
+                            query: { id: item.author_id, name: item.authors.name },
+                          }}
+                        >
+                          {item.authors.name}
+                        </Link>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          className="absolute text-white hover:text-blue-500 top-0 mx-auto mt-[230px] ml-[283px]  w-4 h-4"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                          />
+                        </svg>
+                      </span>
+                    </p>
+                  </div>
                   <p className="italic after:mt-4 text-2xl p-0 text-gray-500 mt-[10px] ">
                     Category: {categoryName}
                   </p>

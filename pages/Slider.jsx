@@ -34,21 +34,25 @@ export default function Slider(props) {
                 {props.relatedBooks.map((val, key) => (
                   <SwiperSlide>
                     <li key={key} className="relative">
-                      <div className="group  block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                        <img
-                          src={val.image}
-                          alt=""
-                          className="pointer-events-none object-cover group-hover:opacity-75"
-                        />
-                        <button
-                          type="button"
-                          className="absolute inset-0 focus:outline-none"
-                        >
-                          <span className="sr-only">
-                            View details for IMG_4985.HEIC
-                          </span>
-                        </button>
-                      </div>
+                      {/* <Link href={{
+                        pathname: "/Details"
+                      }}> */}
+                        <div className="group  block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                          <img
+                            src={val.image}
+                            alt=""
+                            className="pointer-events-none object-cover group-hover:opacity-75"
+                          />
+                          <button
+                            type="button"
+                            className="absolute inset-0 focus:outline-none"
+                          >
+                            <span className="sr-only">
+                              View details for IMG_4985.HEIC
+                            </span>
+                          </button>
+                        </div>
+                      {/* </Link> */}
                       {/* <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
                       IMG_4985.HEIC
                     </p>
