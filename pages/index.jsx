@@ -5,7 +5,9 @@ import Link from "next/link";
 import Home from './Home';
 
 export default function Index() {
-    
+
+     
+
     const [booksInfo, setBooksInfo] = useState([])
     const [authors, setAuthors] = useState([])
     const [toggleCategories, setToggleCategories] = useState(false)
@@ -14,6 +16,7 @@ export default function Index() {
     const [booksFromCategory, setBooksFromCategory] = useState([])
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedItem, setShowSearchedItem]= useState([])
+    const [showSideBar, setShowSideBar] = useState(false);
 
 const getBooks = async (id) => {
 
@@ -106,21 +109,40 @@ useEffect(() => {
 }, [])
 
 
+  // const pull_data = (x) => {
+  //   setPassValueToChild(x)
+  //   console.log(passValueToChild)
+  //   return x;
+    
+  // };
+
+
+
  return (
    <div>
-     <Home />
-
+     <Home {...{ setShowSideBar }} />
      <div className="bg-white">
-       {/*for small screen */}
+       {/*for small screen /start */}
        <div className="relative z-40 lg:hidden">
-         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md"></div>
-         <div className="fixed inset-0 z-40 flex">
+         {showSideBar ? (
+           <div className=" transition-all duration-300 ease-in-out fixed inset-0 bg-opacity-50 backdrop-blur-sm "></div>
+         ) : (
+           ""
+         )}
+         <div
+           className={`${
+             showSideBar
+               ? "fixed inset-0 z-40 w-1/2 transition-all duration-300 ease-in-out "
+               : "fixed inset-0 z-40 w-0 transition-all duration-300 ease-in-out "
+           } `}
+         >
            <div className="relative flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
              <div className="flex items-center justify-between px-4">
                <h2 className="text-lg font-medium text-gray-900">Filters</h2>
                <button
                  type="button"
                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                 onClick={() => setShowSideBar(false)}
                >
                  <span className="sr-only">Close menu</span>
                  <svg
@@ -155,56 +177,58 @@ useEffect(() => {
                      <span className="ml-6 flex items-center"></span>
                    </button>
                  </h3>
-                 <div className="pt-6" id="filter-section-mobile-0">
+                 <div className="pt-6">
                    <div className="space-y-6">
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-color-0"
-                         name="color[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-color-0"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
+                     {authors.map((item) => (
+                       <li
+                         key={item.id}
+                         onClick={() => {
+                           getBooks(item.id);
+                           setToggleCategories(false);
+                         }}
+                         className="list-none cursor-pointer hover:bg-gray-100"
                        >
-                         Humayun Ahmed
-                       </label>
-                     </div>
-
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-color-1"
-                         name="color[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-color-1"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
+                         <div className="flex items-center">
+                           <img
+                             className="relative z-30 inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                             src={item.image}
+                             alt=""
+                           />
+                           <p className="cursor-pointer ml-3 text-sm text-gray-600">
+                             {item.name}
+                           </p>
+                         </div>
+                       </li>
+                     ))}
+                     <div className="flex flex-row">
+                       <button
+                         onClick={(e) => fetchMoreAuthorByClick(e)}
+                         className="text-blue-500 hover:text-blue-700"
                        >
-                         Jafor Iqbal
-                       </label>
-                     </div>
-
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-color-2"
-                         name="color[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-color-2"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
-                       >
-                         Satyajit Roy
-                       </label>
+                         See more
+                       </button>
+                       <span>
+                         <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           color="blue"
+                           fill="none"
+                           viewBox="0 0 24 24"
+                           strokeWidth="1.5"
+                           stroke="currentColor"
+                           className="w-4 h-4 mt-[5px] ml-[3px]"
+                         >
+                           <path
+                             strokeLinecap="round"
+                             strokeLinejoin="round"
+                             d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+                           />
+                         </svg>
+                       </span>
                      </div>
                    </div>
                  </div>
                </div>
-               
+
                <div className="border-t border-gray-200 px-4 py-6">
                  <h3 className="-mx-2 -my-3 flow-root">
                    <button
@@ -219,80 +243,23 @@ useEffect(() => {
                  </h3>
                  <div className="pt-6" id="filter-section-mobile-1">
                    <div className="space-y-6">
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-category-0"
-                         name="category[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-category-0"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
-                       >
-                         Mystery
-                       </label>
-                     </div>
-
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-category-1"
-                         name="category[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-category-1"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
-                       >
-                         Horror
-                       </label>
-                     </div>
-
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-category-2"
-                         name="category[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-category-2"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
-                       >
-                         Sci-fi
-                       </label>
-                     </div>
-
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-category-3"
-                         name="category[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-category-3"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
-                       >
-                         Detective
-                       </label>
-                     </div>
-
-                     <div className="flex items-center">
-                       <input
-                         id="filter-mobile-category-4"
-                         name="category[]"
-                         type="checkbox"
-                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                       />
-                       <label
-                         htmlFor="filter-mobile-category-4"
-                         className="ml-3 min-w-0 flex-1 text-gray-500"
-                       >
-                         Novel
-                       </label>
-                     </div>
+                     {categories.map((item, key) => (
+                       <li key={key} className="list-none">
+                         <div className="flex items-center">
+                           <input
+                             name="category[]"
+                             onChange={() => get_books_by_category(item.id)}
+                             onClick={() => setToggleCategories(true)}
+                             value={item.id}
+                             type="radio"
+                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                           />
+                           <label className="ml-3 text-sm text-gray-600">
+                             {item.name}
+                           </label>
+                         </div>
+                       </li>
+                     ))}
                    </div>
                  </div>
                </div>
@@ -300,7 +267,7 @@ useEffect(() => {
            </div>
          </div>
        </div>
-       {/*for small screen */}
+       {/*for small screen /end */}
        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
          <div className="flex justify-end border-b border-gray-200 pt-24 pb-6">
            <div className="flex items-end justify-end">
