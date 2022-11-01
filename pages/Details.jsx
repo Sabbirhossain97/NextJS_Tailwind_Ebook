@@ -13,26 +13,26 @@ export default function Third() {
   console.log(bookId);
   console.log(categoryId);
   const [booksInfo, setBooksInfo] = useState([]);
-  const [relatedBooks, setRelatedBooks]=useState([]);
+  const [relatedBooks, setRelatedBooks] = useState([]);
 
   const showBookDetails = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
       .select(`*,authors ("name")`)
       .match({ id: bookId, category_id: categoryId });
-      
+
     if (error) {
       console.log(error);
     } else {
       setBooksInfo(data);
-     console.log(data)
+      console.log(data);
     }
   };
-  const getRelatedBooks= async(e)=>{
+  const getRelatedBooks = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
       .select(`*`)
-      .match({category_id: categoryId });
+      .match({ category_id: categoryId });
 
     if (error) {
       console.log(error);
@@ -40,14 +40,13 @@ export default function Third() {
       setRelatedBooks(data);
       console.log(data);
     }
-  }
+  };
   useEffect(() => {
     showBookDetails();
   }, []);
-   useEffect(() => {
-     getRelatedBooks();
-   }, []);
-
+  useEffect(() => {
+    getRelatedBooks();
+  }, []);
 
   return (
     <div>
@@ -86,10 +85,27 @@ export default function Third() {
                     </span>
                   </p>
                   <div className=" mt-3 border-b"></div>
-                  <button className="ml-auto mt-3 flex rounded border-0 bg-indigo-500 py-2 px-6 text-white hover:bg-indigo-600 focus:outline-none">
-                    {" "}
-                    Download{" "}
-                  </button>
+                  <div>
+                    <button className="ml-auto mt-3 flex rounded border-0 bg-blue-500 py-2 px-3 text-white hover:bg-blue-600 focus:outline-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        color="white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="animate-bounce inline w-5 h-5 mr-[5px]"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                      Download
+                    </button>
+                  </div>
+                  
                 </div>
               </div>
             </li>
