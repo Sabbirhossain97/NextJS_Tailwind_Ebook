@@ -26,18 +26,18 @@ const getBooks = async (id) => {
             if (error) {
                 console.log(error)
             } else {
-                // console.log(data.image)
+                 
                 setBooksInfo(data)
             }
         }
         else {
             let { data, error } = await supabase
-                .from('books_duplicate')
-                .select('*')               
+              .from("books_duplicate")
+              .select(`*,categories(name)`);               
             if (error) {
                 console.log(error)
             } else {
-                // console.log(data.image)
+                 console.log(data)
                 setBooksInfo(data)
             }
         }
@@ -111,8 +111,9 @@ useEffect(() => {
      <Home />
 
      <div className="bg-white">
-       <div className="relative z-40 lg:hidden" role="dialog" aria-modal="true">
-         <div className="fixed inset-0 bg-black bg-opacity-25"></div>
+       {/*for small screen */}
+       <div className="relative z-40 lg:hidden">
+         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md"></div>
          <div className="fixed inset-0 z-40 flex">
            <div className="relative flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
              <div className="flex items-center justify-between px-4">
@@ -203,7 +204,7 @@ useEffect(() => {
                    </div>
                  </div>
                </div>
-               {/* for small screen */}
+               
                <div className="border-t border-gray-200 px-4 py-6">
                  <h3 className="-mx-2 -my-3 flow-root">
                    <button
@@ -295,12 +296,11 @@ useEffect(() => {
                    </div>
                  </div>
                </div>
-               {/* for small screen */}
              </form>
            </div>
          </div>
        </div>
-
+       {/*for small screen */}
        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
          <div className="flex justify-end border-b border-gray-200 pt-24 pb-6">
            <div className="flex items-end justify-end">
@@ -321,20 +321,19 @@ useEffect(() => {
                    />
                  </svg>
                </div>
-               {/* <form onSubmit={(e) => getSearchedBooks(e)}> */}
+
                <input
                  className="block w-[500px] rounded-md border border-gray-400 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                  placeholder="Find Books..."
                  type="text"
                  onChange={(e) => setSearchQuery(e.target.value)}
                />
-               {/* </form> */}
              </div>
              {/* search */}
            </div>
          </div>
-
-         <section aria-labelledby="products-heading" className="pt-6 pb-24">
+         {/*main container */}
+         <section className="pt-6 pb-24">
            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
              <form className="hidden lg:block">
                <div className="border-b border-gray-200 py-6">
@@ -342,8 +341,6 @@ useEffect(() => {
                    <button
                      type="button"
                      className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
-                     aria-controls="filter-section-0"
-                     aria-expanded="false"
                      disabled
                    >
                      <span className="font-medium text-gray-900">Authors</span>
@@ -442,7 +439,7 @@ useEffect(() => {
              </form>
 
              <div className="lg:col-span-3">
-               <div className="h-96 rounde d-lg border-4 p-5 border-gray-200 lg:h-full">
+               <div className="h-96 rounded-lg lg:border-4 p-5  lg:h-full">
                  <div className="flex justify-center">
                    {/* {searchQuery ? (
                      <h1 className="text-4xl p-5 divide">No result found</h1>
@@ -491,31 +488,6 @@ useEffect(() => {
                                {item.title}
                              </p>
                            </Link>
-                           {/* <div className="flex flex-row mt-[3px]">
-                             <svg
-                               xmlns="http://www.w3.org/2000/svg"
-                               color="blue"
-                               fill="none"
-                               viewBox="0 0 24 24"
-                               strokeWidth="1.5"
-                               stroke="currentColor"
-                               className="inline w-5 h-5"
-                             >
-                               <path
-                                 strokeLinecap="round"
-                                 strokeLinejoin="round"
-                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                               />
-                             </svg>
-                             {/* <a
-                               href={
-                                 `https://sabbirontheweb.com` + `${item.link}`
-                               }
-                               className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
-                             >
-                               Download
-                             </a> 
-                           </div> */}
                          </li>
                        ))
                      : searchQuery
@@ -538,7 +510,8 @@ useEffect(() => {
                                  pathname: "/Details",
                                  query: {
                                    id: item.id,
-                                   cat_id: item.category_id,
+                                   category_name: item.categories.name,
+                                   category_id: item.category_id,
                                  },
                                }}
                              >
@@ -562,31 +535,6 @@ useEffect(() => {
                              <p className="mt-2 block truncate text-sm font-medium text-gray-900">
                                {item.title}
                              </p>
-                             {/* <div className="flex flex-row mt-[3px]">
-                               <svg
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 color="blue"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 strokeWidth="1.5"
-                                 stroke="currentColor"
-                                 className="inline w-5 h-5"
-                               >
-                                 <path
-                                   strokeLinecap="round"
-                                   strokeLinejoin="round"
-                                   d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                                 />
-                               </svg>
-                               {/* <a
-                                 href={
-                                   `https://sabbirontheweb.com` + `${item.link}`
-                                 }
-                                 className="ml-[3px] cursor-pointer text-md font-medium text-gray-500"
-                               >
-                                 Download
-                               </a> 
-                             </div> */}
                            </li>
                          ))
                      : booksInfo.map((item) => (
@@ -594,7 +542,11 @@ useEffect(() => {
                            <Link
                              href={{
                                pathname: "/Details",
-                               query: { id: item.id, cat_id: item.category_id },
+                               query: {
+                                 id: item.id,
+                                 category_name: item.categories.name,
+                                 category_id: item.category_id,
+                               },
                              }}
                            >
                              <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">

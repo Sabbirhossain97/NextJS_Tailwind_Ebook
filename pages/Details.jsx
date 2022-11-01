@@ -9,23 +9,25 @@ export default function Third() {
   const router = useRouter();
   const query = router.query;
   const bookId = query.id;
-  const categoryId = query.cat_id;
-  console.log(bookId);
-  console.log(categoryId);
+  const categoryName = query.category_name;
+  const categoryId= query.category_id
+  //console.log(bookId);
+  //console.log(categoryName);
+  //console.log(categoryId);
   const [booksInfo, setBooksInfo] = useState([]);
   const [relatedBooks, setRelatedBooks] = useState([]);
 
   const showBookDetails = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
-      .select(`*,authors ("name")`)
+      .select(`*,authors(name)`)
       .match({ id: bookId, category_id: categoryId });
 
     if (error) {
       console.log(error);
     } else {
       setBooksInfo(data);
-     // console.log(data);
+      //console.log(data);
     }
   };
   const getRelatedBooks = async (e) => {
@@ -83,9 +85,15 @@ export default function Third() {
                       </Link>
                     </span>
                   </p>
+                  <p className="italic after:mt-4 text-2xl p-0 text-gray-500 mt-[10px] ">
+                    Category: {categoryName}
+                  </p>
                   <div className=" mt-3 border-b"></div>
                   <div>
-                    <a href={`https://sabbirontheweb.com`+`${item.link}`} download>
+                    <a
+                      href={`https://sabbirontheweb.com` + `${item.link}`}
+                      download
+                    >
                       <button className="ml-auto mt-3 flex rounded border-0 bg-blue-500 py-2 px-3 text-white hover:bg-blue-600 focus:outline-none">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
