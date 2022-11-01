@@ -23,9 +23,9 @@ const getBooks = async (id) => {
         if (id) {
 
             let { data, error } = await supabase
-                .from('books_duplicate')
-                .select('*')
-                .eq('author_id', id)
+              .from("books_duplicate")
+              .select(`*,categories(name)`)
+              .eq("author_id", id);
             if (error) {
                 console.log(error)
             } else {
@@ -108,16 +108,7 @@ useEffect(() => {
     getCategoryNames()
 }, [])
 
-
-  // const pull_data = (x) => {
-  //   setPassValueToChild(x)
-  //   console.log(passValueToChild)
-  //   return x;
-    
-  // };
-
-
-
+  
  return (
    <div>
      <Home {...{ setShowSideBar }} />
@@ -125,7 +116,7 @@ useEffect(() => {
        {/*for small screen /start */}
        <div className="relative z-40 lg:hidden">
          {showSideBar ? (
-           <div className=" transition-all duration-300 ease-in-out fixed inset-0 bg-opacity-50 backdrop-blur-sm "></div>
+           <div className=" transition-opacity duration-500 ease-linear fixed inset-0 bg-opacity-100 backdrop-blur-sm "></div>
          ) : (
            ""
          )}
@@ -185,6 +176,7 @@ useEffect(() => {
                          onClick={() => {
                            getBooks(item.id);
                            setToggleCategories(false);
+                           setShowSideBar(false);
                          }}
                          className="list-none cursor-pointer hover:bg-gray-100"
                        >
@@ -249,7 +241,7 @@ useEffect(() => {
                            <input
                              name="category[]"
                              onChange={() => get_books_by_category(item.id)}
-                             onClick={() => setToggleCategories(true)}
+                             onClick={() => {setToggleCategories(true); setShowSideBar(false)}}
                              value={item.id}
                              type="radio"
                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"

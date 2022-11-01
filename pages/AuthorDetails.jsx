@@ -12,6 +12,8 @@ import "swiper/css/bundle";
 
 export default function Second() {
   const router = useRouter();
+  const pathName = router.pathname;
+  //console.log(router)
   const query = router.query;
   const authorId = query.id;
   const [authorDetails, setAuthorDetails] = useState([]);
@@ -35,7 +37,7 @@ export default function Second() {
   }, []);
   return (
     <div>
-      <Home />
+      <Home pathname={pathName} />
       <div className="flex h-full">
         <div
           className="relative z-40 lg:hidden"
@@ -146,7 +148,6 @@ export default function Second() {
                         </div>
                       </dl>
                     </div>
-                  
                   </article>
                 </li>
               ))}
@@ -154,7 +155,7 @@ export default function Second() {
               <div className="mt-[150px]">
                 <div>
                   <h2 className="text-lg font-medium text-gray-500 flex justify-center">
-                    More Books from
+                    More Books
                     <span className="text-blue-600 text-xl ml-[10px]">
                       {" "}
                       {/* {authorDetails[0].name} */}

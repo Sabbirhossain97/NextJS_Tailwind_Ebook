@@ -7,6 +7,9 @@ import Slider from "./Slider";
 
 export default function Third() {
   const router = useRouter();
+  //
+  const pathName= router.pathname
+  console.log(pathName);
   const query = router.query;
   const bookId = query.id;
   const categoryName = query.category_name;
@@ -52,7 +55,7 @@ export default function Third() {
 
   return (
     <div>
-      <Home />
+      <Home pathname={pathName} />
       <div className="bg-white">
         <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
           {booksInfo.map((item, key) => (
