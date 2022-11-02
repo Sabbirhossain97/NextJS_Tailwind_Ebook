@@ -6,17 +6,14 @@ import Home from "./Home";
 import Slider from "./Slider";
 
 export default function Third() {
+
   const router = useRouter();
-  //
   const pathName= router.pathname
-  console.log(pathName);
   const query = router.query;
   const bookId = query.id;
+  //console.log(bookId)
   const categoryName = query.category_name;
   const categoryId= query.category_id
-  //console.log(bookId);
-  //console.log(categoryName);
-  //console.log(categoryId);
   const [booksInfo, setBooksInfo] = useState([]);
   const [relatedBooks, setRelatedBooks] = useState([]);
 
@@ -24,19 +21,19 @@ export default function Third() {
     let { data, error } = await supabase
       .from("books_duplicate")
       .select(`*,authors(name)`)
-      .match({ id: bookId, category_id: categoryId });
+      .match({ id: bookId });
 
     if (error) {
       console.log(error);
     } else {
       setBooksInfo(data);
-      console.log(data);
+      //console.log(data);
     }
   };
   const getRelatedBooks = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
-      .select(`*`)
+      .select(`*,authors(name)`)
       .match({ category_id: categoryId });
 
     if (error) {
@@ -48,7 +45,7 @@ export default function Third() {
   };
   useEffect(() => {
     showBookDetails();
-  }, []);
+  }, [bookId]);
   useEffect(() => {
     getRelatedBooks();
   }, []);
@@ -81,7 +78,10 @@ export default function Third() {
                         <Link
                           href={{
                             pathname: "/AuthorDetails",
-                            query: { id: item.author_id, name: item.authors.name },
+                            query: {
+                              id: item.author_id,
+                              name: item.authors.name,
+                            },
                           }}
                         >
                           {item.authors.name}
@@ -90,13 +90,13 @@ export default function Third() {
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
+                          strokeWidth="1.5"
                           stroke="currentColor"
                           className="absolute text-white hover:text-blue-500 top-0 mx-auto mt-[230px] ml-[283px]  w-4 h-4"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                           />
                         </svg>
@@ -137,8 +137,7 @@ export default function Third() {
             </li>
           ))}
         </div>
-
-        <Slider relatedBooks={relatedBooks} />
+        <Slider relatedBooks={relatedBooks} category_name={categoryName} />
       </div>
     </div>
   );

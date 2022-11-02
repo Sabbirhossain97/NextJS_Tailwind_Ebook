@@ -89,7 +89,7 @@ export default function Second() {
                             className="-mb-px flex space-x-8"
                             aria-label="Tabs"
                           >
-                            <p className="border-cyan-500 text-blue-600 text-lg whitespace-nowrap py-4 px-1 border-b-2 font-medium">
+                            <p className="border-blue-500 text-gray-500 text-xl whitespace-nowrap py-4 px-1 border-b-2 font-medium">
                               Information
                             </p>
                           </nav>

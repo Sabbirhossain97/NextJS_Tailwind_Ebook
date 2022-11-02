@@ -2,7 +2,7 @@ import React from 'react'
 import Link from "next/link";
 
 export default function Home({ setShowSideBar, pathname }) {
-  console.log(pathname);
+  //console.log(pathname);
   return (
     <div>
       <div className="bg-zinc-700 h-20 shadow-sm lg:static lg:overflow-y-visible">

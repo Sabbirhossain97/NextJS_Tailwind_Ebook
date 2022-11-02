@@ -40,7 +40,7 @@ const getBooks = async (id) => {
             if (error) {
                 console.log(error)
             } else {
-                 console.log(data)
+                // console.log(data)
                 setBooksInfo(data)
             }
         }
@@ -83,7 +83,7 @@ const getBooks = async (id) => {
    
       let { data, error } = await supabase
         .from("books_duplicate")
-        .select('*')
+        .select(`*,categories(id,name)`)
         .match({category_id: id })
         
        if (error)
@@ -92,7 +92,7 @@ const getBooks = async (id) => {
         } else
          {
             setBooksFromCategory(data)
-           // console.log(data)
+            console.log(data)
         };
     }
 
@@ -241,7 +241,10 @@ useEffect(() => {
                            <input
                              name="category[]"
                              onChange={() => get_books_by_category(item.id)}
-                             onClick={() => {setToggleCategories(true); setShowSideBar(false)}}
+                             onClick={() => {
+                               setToggleCategories(true);
+                               setShowSideBar(false);
+                             }}
                              value={item.id}
                              type="radio"
                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
@@ -415,7 +418,11 @@ useEffect(() => {
                            <Link
                              href={{
                                pathname: "/Details",
-                               query: { id: item.id, cat_id: item.category_id },
+                               query: {
+                                 id: item.id,
+                                 category_name: item.categories.name,
+                                 category_id: item.category_id,
+                               },
                              }}
                            >
                              <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">

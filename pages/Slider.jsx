@@ -1,7 +1,6 @@
 import { Navigation, Pagination, A11y } from "swiper";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import Link from "next/link";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -9,7 +8,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/bundle";
 
 export default function Slider(props) {
-  console.log(props)
+  console.log(props.category_name)
   return (
     <div>
       <div className="mt-[50px]">
@@ -17,7 +16,7 @@ export default function Slider(props) {
           Related Books
         </h1>
         <div className="border-b w-1/4 flex justify-center mx-auto"></div>
-        <div className="flex justify-center h-11/12 w-11/12 2xl:w-1/2 items-center mx-auto ">
+        <div className="flex justify-center h-11/12 w-11/12 xl:w-2/3 2xl:w-1/2 items-center mx-auto ">
           <Swiper
             modules={[Navigation, Pagination, A11y]}
             spaceBetween={50}
@@ -34,9 +33,12 @@ export default function Slider(props) {
                 {props.relatedBooks.map((val, key) => (
                   <SwiperSlide>
                     <li key={key} className="relative">
-                      {/* <Link href={{
-                        pathname: "/Details"
-                      }}> */}
+                      <Link
+                        href={{
+                          pathname: "/Details",
+                          query: { id: val.id, category_name: props.category_name },
+                        }}
+                      >
                         <div className="group  block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                           <img
                             src={val.image}
@@ -52,7 +54,7 @@ export default function Slider(props) {
                             </span>
                           </button>
                         </div>
-                      {/* </Link> */}
+                      </Link>
                       {/* <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
                       IMG_4985.HEIC
                     </p>
