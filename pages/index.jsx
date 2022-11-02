@@ -3,11 +3,15 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../api'
 import Link from "next/link";
 import Home from './Home';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/bundle";
+import "swiper/css/pagination";
+import { Grid, Pagination, Navigation } from "swiper";
+
 
 export default function Index() {
 
      
-
     const [booksInfo, setBooksInfo] = useState([])
     const [authors, setAuthors] = useState([])
     const [toggleCategories, setToggleCategories] = useState(false)
@@ -73,7 +77,7 @@ const getBooks = async (id) => {
         if (error) {
             console.log(error)
         } else {
-            //console.log(data)
+            
             setCategories(data)
         }
     }
@@ -92,7 +96,7 @@ const getBooks = async (id) => {
         } else
          {
             setBooksFromCategory(data)
-            console.log(data)
+            //console.log(data)
         };
     }
 
@@ -160,8 +164,6 @@ useEffect(() => {
                    <button
                      type="button"
                      className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500"
-                     aria-controls="filter-section-mobile-0"
-                     aria-expanded="false"
                      disabled
                    >
                      <span className="font-medium text-gray-900">Authors</span>
@@ -226,8 +228,6 @@ useEffect(() => {
                    <button
                      type="button"
                      className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500"
-                     aria-controls="filter-section-mobile-1"
-                     aria-expanded="false"
                    >
                      <span className="font-medium text-gray-900">Category</span>
                      <span className="ml-6 flex items-center"></span>
@@ -295,9 +295,9 @@ useEffect(() => {
            </div>
          </div>
          {/*main container */}
-         <section className="pt-6 pb-24">
-           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-             <form className="hidden lg:block">
+         <section className="pt-6 pb-24 w-full">
+           <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-4 ">
+             <div className="hidden lg:block">
                <div className="border-b border-gray-200 py-6">
                  <h3 className="-my-3 flow-root">
                    <button
@@ -318,7 +318,7 @@ useEffect(() => {
                            getBooks(item.id);
                            setToggleCategories(false);
                          }}
-                         className="list-none cursor-pointer hover:bg-gray-100"
+                         className=" list-none cursor-pointer hover:bg-gray-100"
                        >
                          <div className="flex items-center">
                            <img
@@ -367,8 +367,6 @@ useEffect(() => {
                    <button
                      type="button"
                      className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
-                     aria-controls="filter-section-1"
-                     aria-expanded="false"
                      disabled
                    >
                      <span className="font-medium text-gray-900">Category</span>
@@ -398,78 +396,33 @@ useEffect(() => {
                    </div>
                  </div>
                </div>
-             </form>
-
-             <div className="lg:col-span-3">
-               <div className="h-96 rounded-lg lg:border-4 p-5  lg:h-full">
+             </div>
+             {/*books container /start */}
+             <div className="lg:col-span-3 ">
+               <div className="h-84 rounded-lg lg:border-4 p-5 lg:h-full">
                  <div className="flex justify-center">
                    {/* {searchQuery ? (
                      <h1 className="text-4xl p-5 divide">No result found</h1>
                    ) : (
                      <h1 className="text-4xl p-5 divide">Success</h1> */}
                  </div>
-                 <ul
-                   role="list"
-                   className="grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+                 <Swiper
+                   slidesPerView={5}
+                   grid={{
+                     rows: 3,
+                     fill: "row",
+                   }}
+                   spaceBetween={10}
+                   pagination={{
+                     clickable: true,
+                   }}
+                   navigation
+                   modules={[Grid, Pagination, Navigation]}
+                   className=""
                  >
-                   {toggleCategories
-                     ? booksFromCategory.map((item) => (
-                         <li key={item.id} className="relative">
-                           <Link
-                             href={{
-                               pathname: "/Details",
-                               query: {
-                                 id: item.id,
-                                 category_name: item.categories.name,
-                                 category_id: item.category_id,
-                               },
-                             }}
-                           >
-                             <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                               <img
-                                 src={item.image}
-                                 alt=""
-                                 className=" object-cover group-hover:opacity-75"
-                                 onClick={() => alert()}
-                               />
-
-                               <button
-                                 type="button"
-                                 className="absolute inset-0 focus:outline-none"
-                               >
-                                 <span className="sr-only">
-                                   View details for IMG_4985.HEIC
-                                 </span>
-                               </button>
-                             </div>
-                           </Link>
-
-                           <Link
-                             href={{
-                               pathname: "/Details",
-                               query: { id: item.id },
-                             }}
-                           >
-                             <p className="mt-2 block cursor-pointer truncate text-sm font-medium text-gray-900">
-                               {item.title}
-                             </p>
-                           </Link>
-                         </li>
-                       ))
-                     : searchQuery
-                     ? booksInfo
-                         .filter((val) => {
-                           if (searchQuery === "") {
-                             return val;
-                           } else if (
-                             val.title
-                               .toLowerCase()
-                               .includes(searchQuery.toLowerCase())
-                           ) {
-                             return val;
-                           }
-                         })
-                         .map((item) => (
+                   <ul className="grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                     {toggleCategories
+                       ? booksFromCategory.map((item) => (
                            <li key={item.id} className="relative">
                              <Link
                                href={{
@@ -481,72 +434,120 @@ useEffect(() => {
                                  },
                                }}
                              >
-                               <div className="scale-95 transition hover:scale-100  group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                               <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                                  <img
                                    src={item.image}
                                    alt=""
-                                   className=" object-cover group-hover:opacity-75"
+                                   className=" object-cover w-full max-h-full group-hover:opacity-75"
+                                   onClick={() => alert()}
                                  />
 
                                  <button
                                    type="button"
                                    className="absolute inset-0 focus:outline-none"
-                                 >
-                                   <span className="sr-only">
-                                     View details for IMG_4985.HEIC
-                                   </span>
-                                 </button>
+                                 ></button>
                                </div>
                              </Link>
-                             <p className="mt-2 block truncate text-sm font-medium text-gray-900">
-                               {item.title}
-                             </p>
+
+                             <Link
+                               href={{
+                                 pathname: "/Details",
+                                 query: { id: item.id },
+                               }}
+                             >
+                               <p className="mt-2 block cursor-pointer truncate text-sm font-medium text-gray-900">
+                                 {item.title}
+                               </p>
+                             </Link>
                            </li>
                          ))
-                     : booksInfo.map((item) => (
-                         <li key={item.id} className="relative">
-                           <Link
-                             href={{
-                               pathname: "/Details",
-                               query: {
-                                 id: item.id,
-                                 category_name: item.categories.name,
-                                 category_id: item.category_id,
-                               },
-                             }}
-                           >
-                             <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                               <img
-                                 src={item.image}
-                                 alt=""
-                                 className=" object-cover group-hover:opacity-75"
-                               />
-
-                               <button
-                                 type="button"
-                                 className="absolute inset-0 focus:outline-none"
+                       : searchQuery
+                       ? booksInfo
+                           .filter((val) => {
+                             if (searchQuery === "") {
+                               return val;
+                             } else if (
+                               val.title
+                                 .toLowerCase()
+                                 .includes(searchQuery.toLowerCase())
+                             ) {
+                               return val;
+                             }
+                           })
+                           .map((item) => (
+                             <li key={item.id} className="relative">
+                               <Link
+                                 href={{
+                                   pathname: "/Details",
+                                   query: {
+                                     id: item.id,
+                                     category_name: item.categories.name,
+                                     category_id: item.category_id,
+                                   },
+                                 }}
                                >
-                                 <span className="sr-only">
-                                   View details for IMG_4985.HEIC
-                                 </span>
-                               </button>
-                             </div>
-                           </Link>
-                           <Link
-                             href={{
-                               pathname: "/Details",
-                               query: { id: item.id },
-                             }}
-                           >
-                             <p className="mt-2 cursor-pointer block truncate text-sm font-medium text-gray-900">
-                               {item.title}
-                             </p>
-                           </Link>
-                         </li>
-                       ))}
-                 </ul>
+                                 <div className="scale-95 transition hover:scale-100  group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                                   <img
+                                     src={item.image}
+                                     alt=""
+                                     className=" object-cover group-hover:opacity-75"
+                                   />
+
+                                   <button
+                                     type="button"
+                                     className="absolute inset-0 focus:outline-none"
+                                   ></button>
+                                 </div>
+                               </Link>
+                               <p className="mt-2 block truncate text-sm font-medium text-gray-900">
+                                 {item.title}
+                               </p>
+                             </li>
+                           ))
+                       : booksInfo.map((item) => (
+                           <SwiperSlide>
+                             <li key={item.id} className="relative">
+                               <Link
+                                 href={{
+                                   pathname: "/Details",
+                                   query: {
+                                     id: item.id,
+                                     category_name: item.categories.name,
+                                     category_id: item.category_id,
+                                   },
+                                 }}
+                               >
+                                 <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                                   <img
+                                     src={item.image}
+                                     alt=""
+                                     className=" object-cover group-hover:opacity-75"
+                                   />
+
+                                   <button
+                                     type="button"
+                                     className="absolute inset-0 focus:outline-none"
+                                   ></button>
+                                 </div>
+                               </Link>
+                               <Link
+                                 href={{
+                                   pathname: "/Details",
+                                   query: { id: item.id },
+                                 }}
+                               >
+                                 <p className="mt-2 cursor-pointer block truncate text-sm font-medium text-gray-900">
+                                   {item.title}
+                                 </p>
+                               </Link>
+                             </li>
+                           </SwiperSlide>
+                         ))}
+                   </ul>
+                 </Swiper>
                </div>
              </div>
+             {/*books container /end */}
            </div>
          </section>
        </main>

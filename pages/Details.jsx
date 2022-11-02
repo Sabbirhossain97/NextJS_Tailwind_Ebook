@@ -27,7 +27,7 @@ export default function Third() {
       console.log(error);
     } else {
       setBooksInfo(data);
-      //console.log(data);
+      
     }
   };
   const getRelatedBooks = async (e) => {
@@ -40,7 +40,7 @@ export default function Third() {
       console.log(error);
     } else {
       setRelatedBooks(data);
-      //console.log(data);
+    
     }
   };
   useEffect(() => {

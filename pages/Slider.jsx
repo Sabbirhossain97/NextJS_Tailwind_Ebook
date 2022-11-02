@@ -8,7 +8,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/bundle";
 
 export default function Slider(props) {
-  console.log(props.category_name)
+ // console.log(props.category_name)
   return (
     <div>
       <div className="mt-[50px]">
@@ -49,18 +49,10 @@ export default function Slider(props) {
                             type="button"
                             className="absolute inset-0 focus:outline-none"
                           >
-                            <span className="sr-only">
-                              View details for IMG_4985.HEIC
-                            </span>
+                            
                           </button>
                         </div>
-                      </Link>
-                      {/* <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
-                      IMG_4985.HEIC
-                    </p>
-                    <p className="pointer-events-none block text-sm font-medium text-gray-500">
-                      3.9 MB
-                    </p> */}
+                      </Link>                     
                     </li>
                   </SwiperSlide>
                 ))}

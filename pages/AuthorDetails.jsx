@@ -29,7 +29,7 @@ export default function Second() {
     } else {
       setAuthorDetails(data);
       setBooksFromAuthor(data[0].books_duplicate);
-     // console.log(authorDetails.name);
+     // console.log(booksFromAuthor)
     }
   };
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function Second() {
                   <Swiper
                     modules={[Navigation, Pagination, A11y]}
                     spaceBetween={60}
-                    slidesPerView={4}
+                    slidesPerView={4}                                 
                     navigation
                     pagination={{ clickable: true }}
                     style={{ padding: "47px" }}
