@@ -5,6 +5,9 @@
 .swiper-slide {
 
   height: calc((100% - 50px) / 3) !important;
- 
+ padding: 10px;
   
+}
+.object-cover{
+  max-height: 212px;
 }

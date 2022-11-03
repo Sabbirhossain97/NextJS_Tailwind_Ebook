@@ -19,8 +19,15 @@ export default function Index() {
     const [categories, setCategories] = useState([])
     const [booksFromCategory, setBooksFromCategory] = useState([])
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchedItem, setShowSearchedItem]= useState([])
     const [showSideBar, setShowSideBar] = useState(false);
+    const [ showActive, setShowActive]=useState(false)
+
+    // const toggleActive = ({showActive}) => {
+    //   //alert(id)
+    //   return {
+    //     backgroundColor: showActive ? "rgb(243,244,246)" : "white",
+    //   };
+    // };
 
 const getBooks = async (id) => {
 
@@ -29,7 +36,8 @@ const getBooks = async (id) => {
             let { data, error } = await supabase
               .from("books_duplicate")
               .select(`*,categories(name)`)
-              .eq("author_id", id);
+              .eq("author_id", id)
+              ;
             if (error) {
                 console.log(error)
             } else {
@@ -40,7 +48,9 @@ const getBooks = async (id) => {
         else {
             let { data, error } = await supabase
               .from("books_duplicate")
-              .select(`*,categories(name)`);               
+              .select(`*,categories(name)`)
+              .range(0, 19);
+              ;               
             if (error) {
                 console.log(error)
             } else {
@@ -318,7 +328,7 @@ useEffect(() => {
                            getBooks(item.id);
                            setToggleCategories(false);
                          }}
-                         className=" list-none cursor-pointer hover:bg-gray-100"
+                         className=" list-none cursor-pointer "
                        >
                          <div className="flex items-center">
                            <img
@@ -406,23 +416,92 @@ useEffect(() => {
                    ) : (
                      <h1 className="text-4xl p-5 divide">Success</h1> */}
                  </div>
-                 <Swiper
-                   slidesPerView={5}
-                   grid={{
-                     rows: 3,
-                     fill: "row",
-                   }}
-                   spaceBetween={10}
-                   pagination={{
-                     clickable: true,
-                   }}
-                   navigation
-                   modules={[Grid, Pagination, Navigation]}
-                   className=""
-                 >
-                   <ul className="grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                     {toggleCategories
-                       ? booksFromCategory.map((item) => (
+                 <ul className="grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                   {toggleCategories
+                     ? booksFromCategory.map((item) => (
+                         <li key={item.id} className="relative">
+                           <Link
+                             href={{
+                               pathname: "/Details",
+                               query: {
+                                 id: item.id,
+                                 category_name: item.categories.name,
+                                 category_id: item.category_id,
+                               },
+                             }}
+                           >
+                             <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                               <img
+                                 src={item.image}
+                                 alt=""
+                                 className=" object-cover w-full max-h-full group-hover:opacity-75"
+                                 onClick={() => alert()}
+                               />
+
+                               <button
+                                 type="button"
+                                 className="absolute inset-0 focus:outline-none"
+                               ></button>
+                             </div>
+                           </Link>
+
+                           <Link
+                             href={{
+                               pathname: "/Details",
+                               query: { id: item.id },
+                             }}
+                           >
+                             <p className="mt-2 block cursor-pointer truncate text-sm font-medium text-gray-900">
+                               {item.title}
+                             </p>
+                           </Link>
+                         </li>
+                       ))
+                     : searchQuery
+                     ? booksInfo
+                         .filter((val) => {
+                           if (searchQuery === "") {
+                             return val;
+                           } else if (
+                             val.title
+                               .toLowerCase()
+                               .includes(searchQuery.toLowerCase())
+                           ) {
+                             return val;
+                           }
+                         })
+                         .map((item) => (
+                           <li key={item.id} className="relative">
+                             <Link
+                               href={{
+                                 pathname: "/Details",
+                                 query: {
+                                   id: item.id,
+                                   category_name: item.categories.name,
+                                   category_id: item.category_id,
+                                 },
+                               }}
+                             >
+                               <div className="scale-95 transition hover:scale-100  group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                                 <img
+                                   src={item.image}
+                                   alt=""
+                                   className=" object-cover group-hover:opacity-75"
+                                 />
+
+                                 <button
+                                   type="button"
+                                   className="absolute inset-0 focus:outline-none"
+                                 ></button>
+                               </div>
+                             </Link>
+                             <p className="mt-2 block truncate text-sm font-medium text-gray-900">
+                               {item.title}
+                             </p>
+                           </li>
+                         ))
+                     : booksInfo.map((item) => (
+                         <SwiperSlide>
                            <li key={item.id} className="relative">
                              <Link
                                href={{
@@ -438,8 +517,7 @@ useEffect(() => {
                                  <img
                                    src={item.image}
                                    alt=""
-                                   className=" object-cover w-full max-h-full group-hover:opacity-75"
-                                   onClick={() => alert()}
+                                   className=" object-cover group-hover:opacity-75"
                                  />
 
                                  <button
@@ -448,103 +526,52 @@ useEffect(() => {
                                  ></button>
                                </div>
                              </Link>
-
                              <Link
                                href={{
                                  pathname: "/Details",
                                  query: { id: item.id },
                                }}
                              >
-                               <p className="mt-2 block cursor-pointer truncate text-sm font-medium text-gray-900">
+                               <p className="mt-2 cursor-pointer block truncate text-sm font-medium text-gray-900">
                                  {item.title}
                                </p>
                              </Link>
                            </li>
-                         ))
-                       : searchQuery
-                       ? booksInfo
-                           .filter((val) => {
-                             if (searchQuery === "") {
-                               return val;
-                             } else if (
-                               val.title
-                                 .toLowerCase()
-                                 .includes(searchQuery.toLowerCase())
-                             ) {
-                               return val;
-                             }
-                           })
-                           .map((item) => (
-                             <li key={item.id} className="relative">
-                               <Link
-                                 href={{
-                                   pathname: "/Details",
-                                   query: {
-                                     id: item.id,
-                                     category_name: item.categories.name,
-                                     category_id: item.category_id,
-                                   },
-                                 }}
-                               >
-                                 <div className="scale-95 transition hover:scale-100  group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                                   <img
-                                     src={item.image}
-                                     alt=""
-                                     className=" object-cover group-hover:opacity-75"
-                                   />
+                         </SwiperSlide>
+                       ))}
+                 </ul>
+                 <div class="bg-zinc-700">
+                   <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8 lg:py-24">
+                     <div class="space-y-12">
+                       <ul
+                         role="list"
+                         class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:grid-cols-3 lg:gap-8"
+                       >
+                         <li class="rounded-lg bg-zinc-900 py-10 px-6 text-center xl:px-10 xl:text-left">
+                           <div class="space-y-6 xl:space-y-10">
+                             <img
+                               class="mx-auto h-40 w-40 rounded-full xl:h-56 xl:w-56"
+                               src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
+                               alt=""
+                             />
+                             <div class="space-y-2 xl:flex xl:items-center xl:justify-between">
+                               <div class="space-y-1 text-lg font-medium leading-6">
+                                 <h3 class="text-white">Leonard Krasner</h3>
+                               </div>
+                             </div>
+                             <button
+                               type="button"
+                               class="focus:ring-offset- inline-flex items-center rounded-md border border-transparent bg-slate-50 px-6 py-3 text-sm font-medium text-zinc-500 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-500"
+                             >
+                               Button text
+                             </button>
+                           </div>
+                         </li>
 
-                                   <button
-                                     type="button"
-                                     className="absolute inset-0 focus:outline-none"
-                                   ></button>
-                                 </div>
-                               </Link>
-                               <p className="mt-2 block truncate text-sm font-medium text-gray-900">
-                                 {item.title}
-                               </p>
-                             </li>
-                           ))
-                       : booksInfo.map((item) => (
-                           <SwiperSlide>
-                             <li key={item.id} className="relative">
-                               <Link
-                                 href={{
-                                   pathname: "/Details",
-                                   query: {
-                                     id: item.id,
-                                     category_name: item.categories.name,
-                                     category_id: item.category_id,
-                                   },
-                                 }}
-                               >
-                                 <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                                   <img
-                                     src={item.image}
-                                     alt=""
-                                     className=" object-cover group-hover:opacity-75"
-                                   />
-
-                                   <button
-                                     type="button"
-                                     className="absolute inset-0 focus:outline-none"
-                                   ></button>
-                                 </div>
-                               </Link>
-                               <Link
-                                 href={{
-                                   pathname: "/Details",
-                                   query: { id: item.id },
-                                 }}
-                               >
-                                 <p className="mt-2 cursor-pointer block truncate text-sm font-medium text-gray-900">
-                                   {item.title}
-                                 </p>
-                               </Link>
-                             </li>
-                           </SwiperSlide>
-                         ))}
-                   </ul>
-                 </Swiper>
+                       </ul>
+                     </div>
+                   </div>
+                 </div>
                </div>
              </div>
              {/*books container /end */}

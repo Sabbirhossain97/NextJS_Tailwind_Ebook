@@ -20,6 +20,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
+    "/AuthorDetails": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/AuthorDetails.js"
+    ],
     "/Details": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
