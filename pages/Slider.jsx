@@ -11,23 +11,21 @@ export default function Slider(props) {
  // console.log(props.category_name)
   return (
     <div>
-      <div className="mt-[50px]">
-        <h1 className="flex justify-center font-bold text-3xl text-gray-500 p-6 ">
-          Related Books
-        </h1>
-        <div className="border-b w-1/4 flex justify-center mx-auto"></div>
-        <div className="flex justify-center h-11/12 w-11/12 xl:w-2/3 2xl:w-1/2 items-center mx-auto ">
+      
+        
+       
+       
           <Swiper
             modules={[Navigation, Pagination, A11y]}
             spaceBetween={50}
-            slidesPerView={4}
+            slidesPerView={5}
             navigation
             pagination={{ clickable: true }}
-            style={{ padding: "47px" }}
+            style={{ padding: "50px" }}
           >
             <div className="">
               <ul
-                role="list"
+                
                 className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-2 xl:gap-x-8"
               >
                 {props.relatedBooks.map((val, key) => (
@@ -59,8 +57,8 @@ export default function Slider(props) {
               </ul>
             </div>
           </Swiper>
-        </div>
+        
       </div>
-    </div>
+    
   );
 }
