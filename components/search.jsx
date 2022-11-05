@@ -1,19 +1,27 @@
-import React from 'react'
+import React from "react";
 import { useState, useEffect } from "react";
+import { supabase } from "../api";
 
 export default function Search() {
 
-  const [toggleSearch, setToggleSearch]= useState(false);
+  const [toggleSearch, setToggleSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchedBooks, setSearchedBooks]= useState([])
 
-      // const [blur, setBlur] = useState(false);
-      // useEffect(() => {
-      //   if (blur) {
-      //     document.body.classList.add("backdrop-blur-md");
-      //   } else {
-      //     document.body.classList.remove("backdrop-blur-none");
-      //   }
-      // }, [blur]);
-      
+  const getBooksBySearch= async(e)=>{
+    let {data,error}= await supabase
+    .from('books_duplicate')
+    .select("*,authors(name)")
+    if(error){
+      console.log(error)
+    } else {
+      setSearchedBooks(data)
+      console.log(data)
+    }
+  }
+  useEffect(() => {
+    getBooksBySearch();
+  }, [searchQuery]);
 
   return (
     <div>
@@ -21,26 +29,26 @@ export default function Search() {
         type="button"
         onClick={() => {
           setToggleSearch(true);
-          
         }}
-        class="inline-flex items-center  border border-transparent bg-zinc-500 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+        className="inline-flex items-center  border border-transparent bg-zinc-500 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
-          class="w-5 h-5 mr-1"
+          className="w-5 h-5 mr-1"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
           />
         </svg>
-        Search <span class="ml-3 mr-2 px-1 text-[.8rem]  border ">CTRL</span>
-        <span class="  mr-2 px-1 text-[.8rem]  border  ">K</span>
+        Search{" "}
+        <span className="ml-3 mr-2 px-1 text-[.8rem]  border ">CTRL</span>
+        <span className="  mr-2 px-1 text-[.8rem]  border  ">K</span>
       </button>
       <div
         className={`relative z-10 ${toggleSearch ? "" : "hidden"}`}
@@ -53,49 +61,104 @@ export default function Search() {
           }`}
         ></div>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
-          <div className=" bg-zinc-800 mx-auto max-w-2xl transform divide-y divide-gray-500 divide-opacity-20 overflow-hidden rounded-xl shadow-2xl transition-all">
-            <div className="relative">
-              <svg
-                className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-500"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+        <div class="relative z-10" role="dialog" aria-modal="true">
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
+
+          <div class=" fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+            <div class="bg-zinc-800 mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+              <div class="relative">
+                <svg
+                  class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <input
+                  type="text"
+                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-100 placeholder-gray-400 focus:ring-0 sm:text-sm"
+                  placeholder="Search..."
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-controls="options"
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              </svg>
-              <input
-                type="text"
-                className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder-gray-100 focus:ring-0 sm:text-sm"
-                placeholder="Search..."
-              />
+              </div>
+
+              <ul
+                class="bg-zinc-800 max-h-96 scroll-py-3 overflow-y-auto p-3"
+                id="options"
+                role="listbox"
+              >
+                {searchQuery
+                  ? searchedBooks
+                      .filter((val) => {
+                        if (searchQuery === "") {
+                          return val;
+                        } else if (
+                          val.title
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      })
+                      .map((item,key) => (
+                        <li
+                        key={key}
+                          class="group flex cursor-default select-none rounded-xl p-3"
+                          id="option-1"
+                          role="option"
+                          tabindex="-1"
+                        >
+                          <div class="flex h-24 w-20 flex-none items-center justify-center rounded-lg bg-zinc-900">
+                            <img
+                              className="object-contain mx-auto  px-2 rounded-md py-1"
+                              src={item.image}
+                              alt=""
+                            />
+                          </div>
+                          <div class="ml-4 flex-auto">
+                            <p class="text-sm font-medium text-gray-100">
+                              {item.title}
+                            </p>
+                            <p class="text-sm text-gray-100">
+                             {item.authors.name}
+                            </p>
+                          </div>
+                        </li>
+                      ))
+                  : ""}
+              </ul>
+
+              <div class="py-14 px-6 text-center text-sm sm:px-14">
+                <svg
+                  class="mx-auto h-6 w-6 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                  />
+                </svg>
+                <p class="mt-4 font-semibold text-gray-900">No results found</p>
+                <p class="mt-2 text-gray-500">
+                  No components found for this search term. Please try again.
+                </p>
+              </div>
             </div>
-
-           <div class="relative z-10" role="dialog" aria-modal="true">
- 
-
-  
-    <div class="mx-auto  transform rounded-xl bg-zinc-800 p-2  ring-opacity-5 transition-all">
-
-      <ul class="-mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-100" id="options" role="listbox">
-        <li class="cursor-default select-none rounded-md px-4 py-2" id="option-1" role="option" tabindex="-1">Leslie Alexander</li>
-        <li class="cursor-default select-none rounded-md px-4 py-2" id="option-2" role="option" tabindex="-1">Michael Foster</li>
-        <li class="cursor-default select-none rounded-md px-4 py-2" id="option-3" role="option" tabindex="-1">Dries Vincent</li>
-        <li class="cursor-default select-none rounded-md px-4 py-2" id="option-4" role="option" tabindex="-1">Lindsay Walton</li>
-        <li class="cursor-default select-none rounded-md px-4 py-2" id="option-5" role="option" tabindex="-1">Courtney Henry</li>
-      </ul>
-
-      
-    </div>
-  
-</div>
           </div>
         </div>
       </div>
