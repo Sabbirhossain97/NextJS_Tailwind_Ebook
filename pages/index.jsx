@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { supabase } from "../api";
 import Link from "next/link";
 import Home from "./Home";
@@ -9,12 +9,11 @@ export default function Index() {
   const [booksInfo, setBooksInfo] = useState([]);
   
  // const [toggleCategories, setToggleCategories] = useState(false);
-  const [dropdown, setDropDown]=useState(false)
-  
+  const [dropdown, setDropDown]=useState(false) 
   const [categories, setCategories] = useState([]);
   const [booksFromCategory, setBooksFromCategory] = useState([]);
   //const [searchQuery, setSearchQuery] = useState("");
-  
+  const categoryOpener = useRef()
 
   const getBooks = async (id) => {
     
@@ -31,7 +30,7 @@ export default function Index() {
     } 
     else if(typeof id === "object"){
      
-      console.log(id)
+      //console.log(id)
       setBooksInfo(id)
       
     } 
@@ -82,25 +81,35 @@ export default function Index() {
     getCategoryNames();
   }, []);
 
+  useEffect(() => {
+    const closeCategoryBar = (e) => {
+      if (e.path[0] !== categoryOpener.current) {
+        setDropDown(false)
+        
+      }
+    };
+    document.body.addEventListener("click", closeCategoryBar);
+    return () => {
+      document.body.removeEventListener("click", closeCategoryBar);
+    };
+  }, []);
+
   return (
     <div>
       <Home />
-      <div  className="bg-zinc-800 ">
+      <div className="bg-zinc-800 ">
         <main className=" bg-zinc-800 mx-auto max-w-7xl  px-4 sm:px-6 lg:px-8  ">
           {/*main container */}
 
           <div className="flex pt-8 justify-end">
             <div className="inline-flex rounded-md shadow-sm">
-              <button
-                type="button"
-                className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-              >
+              <p className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                 Categories
-              </button>
+              </p>
               <div className="relative -ml-px block">
                 <button
                   type="button"
-                  className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10  focus:outline-none  "
                   id="option-menu-button"
                   aria-expanded="true"
                   aria-haspopup="true"
@@ -114,6 +123,7 @@ export default function Index() {
                       strokeWidth="1.5"
                       stroke="currentColor"
                       className="w-6 h-6"
+                      ref={categoryOpener}
                       onClick={() => setDropDown(false)}
                     >
                       <path
@@ -178,79 +188,6 @@ export default function Index() {
                 <div className="h-84 rounded-lg  lg:h-full">
                   <div className="flex justify-center"></div>
                   <ul className="space-y-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:grid-cols-6 ">
-                    {/* {toggleCategories
-                      ? booksFromCategory.map((item) => (
-                          <li key={item.id} className="relative">
-                            <Link
-                              href={{
-                                pathname: "/Details",
-                                query: {
-                                  id: item.id,
-                                  category_name: item.categories.name,
-                                  category_id: item.category_id,
-                                },
-                              }}
-                            >
-                              <div className="scale-95 transition hover:scale-100 aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                                <img
-                                  src={item.image}
-                                  alt=""
-                                  className=" object-cover w-full max-h-full group-hover:opacity-75"
-                                  onClick={() => alert()}
-                                />
-                              </div>
-                            </Link>
-
-                            <Link
-                              href={{
-                                pathname: "/Details",
-                                query: { id: item.id },
-                              }}
-                            >
-                              <p className="mt-2 block cursor-pointer truncate text-sm font-medium text-gray-900">
-                                {item.title}
-                              </p>
-                            </Link>
-                          </li>
-                        ))
-                      : // : searchQuery 
-                        // ? booksInfo
-                        //     .filter((val) => { 
-                        //       if (searchQuery === "") {
-                        //         return val;
-                        //       } else if (
-                        //         val.title
-                        //           .toLowerCase()
-                        //           .includes(searchQuery.toLowerCase())
-                        //       ) {
-                        //         return val;
-                        //       }
-                        //     })
-                        //     .map((item) => (
-                        //       <li key={item.id} className="relative">
-                        //         <Link
-                        //           href={{
-                        //             pathname: "/Details",
-                        //             query: {
-                        //               id: item.id,
-                        //               category_name: item.categories.name,
-                        //               category_id: item.category_id,
-                        //             },
-                        //           }}
-                        //         >
-                        //           <div className="scale-95 transition hover:scale-100  group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                        //             <img
-                        //               src={item.image}
-                        //               alt=""
-                        //               className=" object-cover group-hover:opacity-75"
-                        //             />
-                        //           </div>
-                        //         </Link>
-                        //         <p className="mt-2 block truncate text-sm font-medium px-2 text-gray-900">
-                        //           {item.title}
-                        //         </p>
-                        //       </li>
-                            //     )) */}
                     {booksInfo.map((item) => (
                       <Link
                         href={{

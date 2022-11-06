@@ -1,43 +1,50 @@
 import React from "react";
-import { useState, useEffect ,useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../api";
 
 export default function Search() {
-
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchedBooks, setSearchedBooks]= useState([])
+  const [searchedBooks, setSearchedBooks] = useState([]);
   const searchBarOpener = useRef();
 
-   const getBooksBySearch= async(e)=>{
-    let {data,error}= await supabase
-    .from('books_duplicate')
-    .select("*,authors(name)")
-    if(error){
-      console.log(error)
+  const getBooksBySearch = async (e) => {
+    let { data, error } = await supabase
+      .from("books_duplicate")
+      .select("*,authors(name)");
+    if (error) {
+      console.log(error);
     } else {
-      setSearchedBooks(data)
+      setSearchedBooks(data);
       //console.log(data)
     }
-  }
+  };
   useEffect(() => {
     getBooksBySearch();
-  }, [searchQuery]);
+  }, []);
 
- useEffect(() => {
-   const closeSearchBar = (e) => {
-     if (e.path[0] !== searchBarOpener.current) {
-      
-       setToggleSearch(false);
-       
-     }
-   };
-   document.body.addEventListener("click", closeSearchBar);
-   return () => {
-     document.body.removeEventListener("click", closeSearchBar);
-   };
- }, []);
+  useEffect(() => {
+    const closeSearchBar = (e) => {
+      if (e.path[0] !== searchBarOpener.current) {
+        setToggleSearch(false);
+        setSearchQuery("")
+      }
+    };
+    document.body.addEventListener("click", closeSearchBar);
+    return () => {
+      document.body.removeEventListener("click", closeSearchBar);
+    };
+  }, []);
 
+  const keyHandler=(e=KeyboardEvent)=>{
+        if (e.keyCode===17 && e.keyCode === 75) {
+          setToggleSearch(true);
+        }
+    
+  }
+  useEffect(() => {
+    window.addEventListener("keydown", keyHandler);
+  }, []);
 
   return (
     <div>
@@ -47,6 +54,7 @@ export default function Search() {
         onClick={() => {
           setToggleSearch(true);
         }}
+        
         className="inline-flex items-center  border border-transparent bg-zinc-500 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
       >
         <svg
@@ -82,9 +90,9 @@ export default function Search() {
             <div className=" fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-zinc-800 mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
+                className="bg-zinc-900 mx-auto max-w-xl transform  overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
               >
-                <div className="relative">
+                <div className="relative flex ">
                   <svg
                     className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
                     xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +108,7 @@ export default function Search() {
                   </svg>
                   <input
                     type="text"
-                    className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-100 placeholder-gray-400 focus:ring-0 sm:text-sm"
+                    className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-100 placeholder-gray-400 focus:ring-1 sm:text-sm"
                     placeholder="Search..."
                     role="combobox"
                     aria-expanded="false"
@@ -109,11 +117,7 @@ export default function Search() {
                   />
                 </div>
 
-                <ul
-                  className="bg-zinc-800 max-h-96 scroll-py-3 overflow-y-auto p-3"
-                  id="options"
-                  role="listbox"
-                >
+                <ul className="bg-zinc-900 max-h-96 overflow-y-auto p-3">
                   {searchQuery
                     ? searchedBooks
                         .filter((val) => {
@@ -121,6 +125,9 @@ export default function Search() {
                             return val;
                           } else if (
                             val.title
+                              .toLowerCase()
+                              .includes(searchQuery.toLowerCase()) ||
+                            val.authors.name
                               .toLowerCase()
                               .includes(searchQuery.toLowerCase())
                           ) {
@@ -130,10 +137,10 @@ export default function Search() {
                         .map((item, key) => (
                           <li
                             key={key}
-                            className="group flex cursor-default select-none rounded-xl p-3"
+                            className="cursor-pointer group flex hover:bg-gray-800 select-none rounded-xl p-3"
                             id="option-1"
                             role="option"
-                            tabindex="-1"
+                            tabIndex="-1"
                           >
                             <div className="flex h-24 w-20 flex-none items-center justify-center rounded-lg bg-zinc-900">
                               <img
@@ -154,13 +161,13 @@ export default function Search() {
                         ))
                     : ""}
                 </ul>
-
+                {/* 
                 {searchQuery ? (
                   ""
                 ) : (
-                  <div className="py-14 px-6 text-center text-sm sm:px-14">
+                  <div className="bg-zinc-900 py-14 px-6 text-center text-sm sm:px-14">
                     <svg
-                      className="mx-auto h-6 w-6 text-gray-400"
+                      className="mx-auto h-6 w-6 text-red-400"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -178,7 +185,7 @@ export default function Search() {
                       No results found
                     </p>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
