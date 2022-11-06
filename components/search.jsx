@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../api";
+import Link from "next/link";
 
 export default function Search() {
   const [toggleSearch, setToggleSearch] = useState(false);
@@ -11,12 +12,12 @@ export default function Search() {
   const getBooksBySearch = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
-      .select("*,authors(name)");
+      .select("*,authors(name),categories(name)");
     if (error) {
       console.log(error);
     } else {
       setSearchedBooks(data);
-      //console.log(data)
+      
     }
   };
   useEffect(() => {
@@ -54,8 +55,7 @@ export default function Search() {
         onClick={() => {
           setToggleSearch(true);
         }}
-        
-        className="inline-flex items-center  border border-transparent bg-zinc-500 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+        className="mt-[15px] inline-flex items-center  border border-transparent bg-zinc-500 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ export default function Search() {
                   />
                 </div>
 
-                <ul className="bg-zinc-900 max-h-96 overflow-y-auto p-3">
+                <ul className="bg-zinc-900 max-h-96 overflow-y-auto ">
                   {searchQuery
                     ? searchedBooks
                         .filter((val) => {
@@ -135,29 +135,40 @@ export default function Search() {
                           }
                         })
                         .map((item, key) => (
-                          <li
-                            key={key}
-                            className="cursor-pointer group flex hover:bg-gray-800 select-none rounded-xl p-3"
-                            id="option-1"
-                            role="option"
-                            tabIndex="-1"
+                          <Link
+                            href={{
+                              pathname: "/Details",
+                              query: {
+                                id: item.id,
+                                category_name: item.categories.name,
+                                category_id: item.category_id,
+                              },
+                            }}
                           >
-                            <div className="flex h-24 w-20 flex-none items-center justify-center rounded-lg bg-zinc-900">
-                              <img
-                                className="object-contain mx-auto  px-2 rounded-md py-1"
-                                src={item.image}
-                                alt=""
-                              />
-                            </div>
-                            <div className="ml-4 flex-auto">
-                              <p className="text-sm font-medium text-gray-100">
-                                {item.title}
-                              </p>
-                              <p className="text-sm text-gray-100">
-                                {item.authors.name}
-                              </p>
-                            </div>
-                          </li>
+                            <li
+                              key={key}
+                              className="cursor-pointer group flex hover:bg-gray-800 select-none rounded-xl p-3"
+                              id="option-1"
+                              role="option"
+                              tabIndex="-1"
+                            >
+                              <div className="flex h-24 w-20 flex-none items-center justify-center rounded-lg bg-zinc-900">
+                                <img
+                                  className="object-contain mx-auto  px-2 rounded-md py-1"
+                                  src={item.image}
+                                  alt=""
+                                />
+                              </div>
+                              <div className="ml-4 flex-auto">
+                                <p className="text-sm font-medium text-gray-100">
+                                  {item.title}
+                                </p>
+                                <p className="text-sm text-gray-100">
+                                  {item.authors.name}
+                                </p>
+                              </div>
+                            </li>
+                          </Link>
                         ))
                     : ""}
                 </ul>

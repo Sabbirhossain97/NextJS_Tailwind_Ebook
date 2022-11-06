@@ -33,7 +33,6 @@ export default function Authors({getBooks}) {
             <span className="inline-flex rounded-lg items-center mt-1 bg-gray-100 px-3 py-1 text-xs font-medium text-zinc-500">
               {authors.length}
             </span>
-
             <span className="ml-6 flex items-center"></span>
           </p>
         </h3>
@@ -45,9 +44,9 @@ export default function Authors({getBooks}) {
                 onClick={() => {
                   getBooks(item.id);
                 }}
-                className=" list-none cursor-pointer "
+                className="list-none cursor-pointer "
               >
-                <div className="flex flex-row items-center ">
+                <div className="hover:bg-zinc-900 flex flex-row items-center ">
                   <img
                     className="relative inline-block h-12 w-12 rounded-full ring-2 ring-white"
                     src={item.image}

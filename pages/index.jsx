@@ -181,7 +181,7 @@ export default function Index() {
           </div>
 
           <section className="bg-zinc-800 pt-6 pb-24 w-full h-full">
-            <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-10 ">
+            <div className="grid grid-cols-1 gap-x-12 gap-y-10  lg:grid-cols-10 ">
               {/*books container /start */}
               <Authors getBooks={getBooks} />
               <div className="lg:col-span-8 ">
@@ -206,13 +206,11 @@ export default function Index() {
                               src={item.image}
                               alt=""
                             />
-                            <div className="space-y-2 xl:flex xl:items-center xl:justify-between">
                               <div className="space-y-1 text-lg text-center font-medium leading-6">
-                                <h3 className="text-sm text-white text-center">
+                                <h3 className="text-sm text-white ">
                                   {item.title}
                                 </h3>
                               </div>
-                            </div>
                           </div>
                         </li>
                       </Link>

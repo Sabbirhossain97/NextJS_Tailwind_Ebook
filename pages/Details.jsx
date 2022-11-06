@@ -13,11 +13,11 @@ import "swiper/css/bundle";
 
 
 export default function Third() {
-  const router = useRouter();
-  const pathName = router.pathname;
-  const query = router.query;
+
+  const router = useRouter(); 
+   const query = router.query;
   const bookId = query.id;
-  //const categoryName = query.category_name;
+  const categoryName = query.category_name;
   const categoryId = query.category_id;
   const [booksInfo, setBooksInfo] = useState([]);
   const [relatedBooks, setRelatedBooks] = useState([]);
@@ -70,23 +70,24 @@ export default function Third() {
   useEffect(() => {
     showBookDetails();
   }, [bookId]);
+
   useEffect(() => {
     getRelatedBooks();
-  }, []);
+  }, [categoryId]);
   
 
   return (
     <div>
-      <Home pathname={pathName} />
+      <Home />
 
       {/*new section here */}
 
-      <main className=" h-screen mx-auto bg-zinc-800 ">
+      <main className=" mx-auto bg-zinc-800 ">
         <div className=" bg-zinc-800 ">
           {booksInfo.map((val, key) => (
             <div key={key}>
               <div className="h-52 w-full lg:h-52 bg-zinc-900 flex flex-col ">
-                <h1 className="text-zinc-300 text-4xl flex justify-center text-center items-center h-36  md:w-4/5 lg:text-center lg:w-full">
+                <h1 className="mx-auto text-zinc-300 text-4xl flex justify-center w-3/4 items-center h-36  md:w-full md:text-center lg:text-center lg:w-full">
                   {
                     val.authors.description[
                       Object.keys(val.authors.description)[0]
@@ -107,10 +108,16 @@ export default function Third() {
                         <span className="absolute inset-0 rounded-full shadow-inner"></span>
                       </div>
                     </div>
-                    <div>
+                    <div className="mt-[20px]">
                       <h1 className="text-3xl font-bold text-gray-200">
                         {val.title}
                       </h1>
+                      <p className="text-2xl font-medium text-gray-500 mt-2">
+                        Category{" "}
+                        <span className="italic text-teal-500">
+                          {categoryName}
+                        </span>
+                      </p>
                       <p className="text-2xl font-medium text-gray-500 mt-2">
                         Written By
                         <a href="#" className="ml-[5px] text-teal-500">
@@ -127,19 +134,29 @@ export default function Third() {
                         <div className="mt-6 sm:mt-2 2xl:mt-5">
                           <div className="border-b border-zinc-600">
                             <div className="mx-auto max-w-7xl  sm:px-6 lg:px-8">
-                              <nav className="-mb-1 flex ">
+                              <nav className="flex ">
                                 <p
-                                  onClick={() => {setToggleTabs(false);}}
-                                  className="cursor-pointer border-teal-500 text-gray-100 text-xl whitespace-nowrap py-4 px-1 border-b-2  font-medium"
+                                  onClick={() => {
+                                    setToggleTabs(false);
+                                  }}
+                                  className={`${
+                                    toggleTabs
+                                      ? "cursor-pointer text-gray-100 text-xl  whitespace-nowrap py-4 px-2 font-medium "
+                                      : "cursor-pointer text-gray-100 text-xl border-b border-teal-500 whitespace-nowrap py-4 px-2 font-medium  "
+                                  }`}
                                 >
-                                  Information
+                                  Author Info
                                 </p>
                                 <p
                                   onClick={() => {
                                     setToggleTabs(true);
                                     getAuthorBooks(val.authors.id);
                                   }}
-                                  className="cursor-pointer ml-[50px] border-teal-500 text-gray-100 text-xl whitespace-nowrap py-4 px-1 border-b  font-medium"
+                                  className={`${
+                                    toggleTabs
+                                      ? "cursor-pointer border-b border-teal-500 ml-[50px] text-gray-100 text-xl whitespace-nowrap py-4 px-1 font-medium"
+                                      : "cursor-pointer ml-[50px] text-gray-100 text-xl whitespace-nowrap py-4 px-1 font-medium"
+                                  }`}
                                 >
                                   More Books
                                 </p>
@@ -170,7 +187,7 @@ export default function Third() {
                           </ul>
                         ) : (
                           <div>
-                            <div className="font-sans border-t border-zinc-600 px-4 py-5 sm:px-6">
+                            <div className="font-sans  px-4 py-5 sm:px-6">
                               <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                                 <div className="sm:col-span-1">
                                   <dt className="text-xl font-medium text-gray-100">
@@ -251,7 +268,7 @@ export default function Third() {
                     </section>
 
                     {toggleTabs ? (
-                    ''
+                      ""
                     ) : (
                       <section>
                         <div className="bg-zinc-800 shadow sm:overflow-hidden sm:rounded-lg">
