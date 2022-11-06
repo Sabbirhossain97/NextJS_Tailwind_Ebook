@@ -85,7 +85,7 @@ export default function Index() {
   return (
     <div>
       <Home />
-      <div className="bg-zinc-800 ">
+      <div  className="bg-zinc-800 ">
         <main className=" bg-zinc-800 mx-auto max-w-7xl  px-4 sm:px-6 lg:px-8  ">
           {/*main container */}
 
