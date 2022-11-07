@@ -7,6 +7,7 @@ export default function Search() {
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks]= useState([])
   const searchBarOpener = useRef();
 
   const getBooksBySearch = async (e) => {
@@ -37,15 +38,16 @@ export default function Search() {
     };
   }, []);
 
-  const keyHandler=(e=KeyboardEvent)=>{
-        if (e.keyCode===17 && e.keyCode === 75) {
-          setToggleSearch(true);
-        }
-    
-  }
-  useEffect(() => {
-    window.addEventListener("keydown", keyHandler);
-  }, []);
+  //  const handleKeyPress = (event) => {
+  //   if (event.key === "Control" && event.key==="k") {
+  //     setToggleSearch(true);
+  //   }
+  //    console.log(`Key pressed: ${event.key}`);
+  //  }
+
+  // useEffect(() => {
+  //   window.addEventListener("keydown", handleKeyPress);
+  // }, []);
 
   return (
     <div>
@@ -55,7 +57,7 @@ export default function Search() {
         onClick={() => {
           setToggleSearch(true);
         }}
-        className="mt-[15px] inline-flex items-center  border border-transparent bg-zinc-500 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+        className="mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +74,8 @@ export default function Search() {
           />
         </svg>
         Search{" "}
-        <span className="ml-3 mr-2 px-1 text-[.8rem]  border ">CTRL</span>
-        <span className="  mr-2 px-1 text-[.8rem]  border  ">K</span>
+        {/* <span className="ml-3 mr-2 px-1 text-[.8rem]  border ">CTRL</span>
+        <span className="  mr-2 px-1 text-[.8rem]  border  ">K</span> */}
       </button>
 
       {toggleSearch ? (
@@ -131,11 +133,13 @@ export default function Search() {
                               .toLowerCase()
                               .includes(searchQuery.toLowerCase())
                           ) {
-                            return val;
+                           
+                             return val;                         
                           }
                         })
                         .map((item, key) => (
                           <Link
+                            key={key}
                             href={{
                               pathname: "/Details",
                               query: {
@@ -146,7 +150,6 @@ export default function Search() {
                             }}
                           >
                             <li
-                              key={key}
                               className="cursor-pointer group flex hover:bg-gray-800 select-none rounded-xl p-3"
                               id="option-1"
                               role="option"
@@ -171,32 +174,8 @@ export default function Search() {
                           </Link>
                         ))
                     : ""}
+
                 </ul>
-                {/* 
-                {searchQuery ? (
-                  ""
-                ) : (
-                  <div className="bg-zinc-900 py-14 px-6 text-center text-sm sm:px-14">
-                    <svg
-                      className="mx-auto h-6 w-6 text-red-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
-                      />
-                    </svg>
-                    <p className="mt-4 font-semibold text-gray-100">
-                      No results found
-                    </p>
-                  </div>
-                )} */}
               </div>
             </div>
           </div>

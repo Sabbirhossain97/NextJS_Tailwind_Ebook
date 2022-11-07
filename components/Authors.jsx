@@ -25,8 +25,8 @@ export default function Authors({getBooks}) {
     getAuthorsNames();
   }, [authorCount]);
   return (
-    <div className="hidden lg:col-span-2 lg:block">
-      <div className=" ">
+      
+      <div className=" hidden lg:col-span-2 lg:block ">
         <h3 className="-my-3 flow-root">
           <p className="flex w-full items-center justify-between bg-zinc-800 py-3 text-sm text-gray-400 hover:text-gray-500">
             <span className=" font-bold text-3xl text-gray-200">Authors</span>
@@ -87,6 +87,7 @@ export default function Authors({getBooks}) {
           </div>
         </div>
       </div>
-    </div>
+      
+    
   );
 }
