@@ -2,18 +2,15 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../api";
 
-export default function Filters({ getBooks }) {
+export default function Filters({ getBooks}) {
 
-  const [active, setActive]=useState(null)
+  const [active, setActive] = useState(null);
   const [categories, setCategories] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [dropDownCategories, setDropDownCategories] = useState(false);
   const [dropDownAuthor, setDropDownAuthor] = useState(false);
   const categoryOpener = useRef();
 
-  const getActiveField= (id)=>{
-       getAuthorsNames(id);
-  }
   const getCategoryNames = async (id) => {
     if (id) {
       let { data, error } = await supabase
@@ -24,41 +21,38 @@ export default function Filters({ getBooks }) {
         console.log(error);
       } else {
         setActive(data);
-        console.log(data)
+        console.log(data);
       }
-    } 
-    else {
-    let { data, error } = await supabase.from("categories").select("*");
-    if (error) {
-      console.log(error);
     } else {
-      setCategories(data);
+      let { data, error } = await supabase.from("categories").select("*");
+      if (error) {
+        console.log(error);
+      } else {
+        setCategories(data);
+      }
     }
-  }
   };
 
-const getAuthorsNames = async (id) => {
-
-  if(id){
-    let { data, error } = await supabase.from("authors").select("name").match({id: id});
-    if (error) {
-      console.log(error);
+  const getAuthorsNames = async (id) => {
+    if (id) {
+      let { data, error } = await supabase
+        .from("authors")
+        .select("name")
+        .match({ id: id });
+      if (error) {
+        console.log(error);
+      } else {
+        setActive(data);
+      }
     } else {
-      setActive(data)
-      
+      let { data, error } = await supabase.from("authors").select("*");
+      if (error) {
+        console.log(error);
+      } else {
+        setAuthors(data);
+      }
     }
-  } 
-  else {
-  let { data, error } = await supabase
-    .from("authors")
-    .select("*")
-  if (error) {
-    console.log(error);
-  } else {
-    setAuthors(data);
-  }
-}
-};
+  };
 
   const get_books_by_category = async (id) => {
     let { data, error } = await supabase
@@ -78,15 +72,17 @@ const getAuthorsNames = async (id) => {
     getCategoryNames();
   }, []);
 
-   useEffect(() => {
-     getAuthorsNames();
-   }, []);
+  useEffect(() => {
+    getAuthorsNames();
+  }, []);
+
+
 
   useEffect(() => {
     const closeCategoryBar = (e) => {
       if (e.path[0] !== categoryOpener.current) {
         setDropDownCategories(false);
-        setDropDownAuthor(false)
+        setDropDownAuthor(false);
       }
     };
     document.body.addEventListener("click", closeCategoryBar);
@@ -98,7 +94,6 @@ const getAuthorsNames = async (id) => {
   return (
     <div>
       <div className="flex flex-row justify-end">
-    
         {/* categories filter /start*/}
         <div className="flex pt-8 justify-end">
           <div className="inline-flex rounded-md shadow-sm">

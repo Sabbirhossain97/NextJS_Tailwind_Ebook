@@ -1,4 +1,4 @@
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../api";
 import Link from "next/link";
 import Home from "./Home";
@@ -7,11 +7,14 @@ import Authors from "../components/Authors";
 import Filters from "../components/Sub-components/Filters";
 
 export default function Index() {
-
   const [booksInfo, setBooksInfo] = useState([]);
-  
+  const [itemsPerPage] = useState(14);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalLength,setTotalLength]= useState(null)
+ 
+
   const getBooks = async (id) => {
-    
     if (typeof id === "number") {
       let { data, error } = await supabase
         .from("books_duplicate")
@@ -22,56 +25,52 @@ export default function Index() {
       } else {
         setBooksInfo(data);
       }
-    } 
-    else if(typeof id === "object"){
-     
-      setBooksInfo(id)  
-    } 
-
-    else {
-      let { data, error } = await supabase
+    } else if (typeof id === "object") {
+      setBooksInfo(id);
+    } else {
+      let { data, count, error } = await supabase
         .from("books_duplicate")
-        .select(`*,categories(name)`)
-        .range(0, 19);
+        .select(`*,categories(name)`,{ count: "exact" })
+        .range(firstItemIndex, lastItemIndex);
+
       if (error) {
         console.log(error);
       } else {
-       
+        setTotalLength(count)
         setBooksInfo(data);
       }
     }
-  }
-  
- 
+  };
 
   useEffect(() => {
     getBooks();
-  }, []);
-
-  
+  }, [currentPage]);
+   
+   const lastItemIndex = currentPage * itemsPerPage;
+   const firstItemIndex = lastItemIndex - itemsPerPage;
+   const currentItems = booksInfo.slice(firstItemIndex, lastItemIndex);
 
   return (
-    <div>
+    <div >
       <div className="">
         <Home />
         <div className="bg-zinc-800 h-full sm:h-full">
           <div className=" bg-zinc-800 mx-auto max-w-7xl  px-4 sm:px-6 lg:px-8  ">
-
             {/*main container */}
 
-            <Filters getBooks={getBooks} />
+            <Filters getBooks={getBooks}  />
 
-            <section className="bg-zinc-800 pt-6 pb-24 w-full h-full">
+            <section className="bg-zinc-800 pt-6 pb-24 w-full ">
               <div className="grid grid-cols-1 grid-rows-1 gap-x-12 gap-y-10  lg:grid-cols-10 ">
                 {/*books container /start */}
                 <Authors getBooks={getBooks} />
                 <div className="lg:col-span-8 ">
                   <div className=" rounded-lg  lg:h-full">
                     <div className="flex justify-center"></div>
-                    <ul className="bg-zinc-800  space-y-4 sm:grid sm:grid-cols-4 sm:gap-6 sm:space-y-0 lg:grid-cols-6 ">
-                      {booksInfo.map((item,key) => (
+                    <ul className="bg-zinc-800  space-y-4 sm:grid sm:grid-cols-4 sm:gap-6 sm:space-y-0 lg:grid-cols-5 ">
+                      {booksInfo.map((item, key) => (
                         <Link
-                        key={key}
+                          key={key}
                           href={{
                             pathname: "/Details",
                             query: {
@@ -103,10 +102,18 @@ export default function Index() {
                 {/*books container /end */}
               </div>
             </section>
-            {/* <Pagination /> */}
           </div>
         </div>
       </div>
+      <Pagination
+        currentItems={currentItems}
+        itemsPerPage={itemsPerPage}
+        totalPage={totalPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalLength={totalLength}
+       
+      />
     </div>
   );
 }

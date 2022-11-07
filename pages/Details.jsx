@@ -203,15 +203,13 @@ export default function Third() {
                                     {val.title}
                                   </h3>
                                 </div>
-                               
                                   <a
                                     href="#"
                                     className="block bg-zinc-700 px-2 py-2  mx-auto rounded-md text-center text-sm font-medium text-teal-500 hover:text-teal-600 sm:rounded-b-lg"
                                     download={val.link}
                                   >
                                     Download Book
-                                  </a>
-                               
+                                  </a>           
                               </div>
                             </li>
                           ))}
