@@ -10,6 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/bundle";
+import AnimatedPage from "../components/Sub-components/AnimatedPages";
 
 export default function Third() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function Third() {
       console.log(error);
     } else {
       setBooksInfo(data);
-      console.log(data);
+      
     }
   };
 
@@ -46,7 +47,7 @@ export default function Third() {
       console.log(error);
     } else {
       setRelatedBooks(data);
-      console.log(data);
+     
     }
   };
 
@@ -60,7 +61,7 @@ export default function Third() {
       console.log(error);
     } else {
       setAuthorBooks(data);
-      //console.log(authorBooks);
+     
     }
   };
 
@@ -104,16 +105,22 @@ export default function Third() {
       <div className="h-full mx-auto bg-zinc-800">
         {booksInfo.map((val, key) => (
           <div key={key}>
-            <div className="h-52 w-full lg:h-52 bg-zinc-900 flex flex-col ">
-              <h1 className="mx-auto text-zinc-300 text-4xl flex justify-center w-3/4 items-center h-36  md:w-full md:text-center lg:text-center lg:w-full">
-                {
-                  val.authors.description[
-                    Object.keys(val.authors.description)[0]
-                  ]
-                }
-              </h1>
+            <div className="h-52 lg:h-52 bg-zinc-900 flex flex-col justify-center ">
+              <div className="flex flex-col mx-auto items-end w-3/4">
+                <h1 className="mx-auto text-zinc-300 text-3xl flex justify-center w-3/4 items-center   md:w-full md:text-center lg:text-center lg:w-full">
+                  {
+                    val.authors.description[
+                      Object.keys(val.authors.description)[0]
+                    ]
+                  }
+                </h1>
+                <h3 className="mt-[10px] text-xl text-zinc-300 ">
+                  &mdash;{" "}
+                  <span className="text-teal-500">{val.authors.name}</span>
+                </h3>
+              </div>
             </div>
-            <div>
+            <div className="h-full">
               <div className="-mt-12 mx-auto max-w-7xl px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
                 <div className="flex items-center space-x-5">
                   <div className="flex-shrink-0">
@@ -186,34 +193,36 @@ export default function Third() {
                         </div>
                       </div>
                       {toggleTabs ? (
-                        <ul className="mt-[50px] space-y-4 sm:grid sm:grid-cols-4 sm:gap-6 sm:space-y-0 lg:grid-cols-6 ">
-                          {authorBooks.map((val, key) => (
-                            <li
-                              key={key}
-                              className="list-none scale-95 transition hover:scale-100 rounded-lg bg-zinc-900 py-2 px-1 text-center"
-                            >
-                              <div className=" space-y-6 xl:space-y-4">
-                                <img
-                                  className=" object-cover mx-auto  px-2 rounded-md py-1"
-                                  src={val.image}
-                                  alt=""
-                                />
-                                <div className="space-y-1 text-sm text-center font-medium leading-6">
-                                  <h3 className="text-white text-center">
-                                    {val.title}
-                                  </h3>
-                                </div>
+                        <AnimatedPage>
+                          <ul className=" mt-[50px] space-y-4 sm:bg-zinc-800 sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0 lg:grid-cols-4 xl:grid-cols-5 ">
+                            {authorBooks.map((val, key) => (
+                              <li
+                                key={key}
+                                className="list-none scale-90 transition hover:scale-100 rounded-lg bg-zinc-900 py-2 px-2 text-center"
+                              >
+                                <div className=" space-y-6 xl:space-y-4">
+                                  <img
+                                    className=" object-contain mx-auto  px-2 rounded-md py-1"
+                                    src={val.image}
+                                    alt=""
+                                  />
+                                  <div className="space-y-1 text-sm text-center font-medium leading-6">
+                                    <h3 className="text-white text-center">
+                                      {val.title}
+                                    </h3>
+                                  </div>
                                   <a
                                     href="#"
                                     className="block bg-zinc-700 px-2 py-2  mx-auto rounded-md text-center text-sm font-medium text-teal-500 hover:text-teal-600 sm:rounded-b-lg"
                                     download={val.link}
                                   >
                                     Download Book
-                                  </a>           
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
+                                  </a>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </AnimatedPage>
                       ) : (
                         <div>
                           <div className=" px-4 py-5 sm:px-6">

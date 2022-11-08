@@ -5,19 +5,20 @@ import { supabase } from '../api';
 export default function Authors({getBooks}) {
   const [authors, setAuthors] = useState([]);
   const [authorCount, setAuthorCount] = useState(8);
-
+  const [totalAuthors,setTotalAuthors]= useState(null)
   const fetchMoreAuthorByClick = (e) => {
     e.preventDefault();
     setAuthorCount((prevState) => prevState + 3);
   };
   const getAuthorsNames = async (e) => {
-    let { data, error } = await supabase
+    let { data,count, error } = await supabase
       .from("authors")
-      .select("*")
+      .select("*",{count: 'exact'})
       .range(0, authorCount);
     if (error) {
       console.log(error);
     } else {
+      setTotalAuthors(count)
       setAuthors(data);
     }
   };
@@ -31,7 +32,7 @@ export default function Authors({getBooks}) {
           <p className="flex w-full items-center justify-between bg-zinc-800 py-3 text-sm text-gray-400 hover:text-gray-500">
             <span className=" font-bold text-3xl text-gray-200">Authors</span>
             <span className="inline-flex rounded-lg items-center mt-1 bg-gray-100 px-3 py-1 text-xs font-medium text-zinc-500">
-              {authors.length}
+              {totalAuthors}
             </span>
             <span className="ml-6 flex items-center"></span>
           </p>

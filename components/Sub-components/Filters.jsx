@@ -149,7 +149,7 @@ export default function Filters({ getBooks}) {
               {dropDownCategories ? (
                 <div
                   onClick={(e) => e.stopPropagation()}
-                  className="absolute right-0 z-10 mt-2 -mr-1 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className={`${dropDownCategories ? "w-56": "w-0"} transition-all ease-linear absolute right-0 z-10 mt-2 -mr-1 duration-300 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="option-menu-button"

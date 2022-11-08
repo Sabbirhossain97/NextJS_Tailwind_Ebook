@@ -150,7 +150,7 @@ export default function Search() {
                             }}
                           >
                             <li
-                              className="cursor-pointer group flex hover:bg-gray-800 select-none rounded-xl p-3"
+                              className="cursor-pointer group flex hover:bg-zinc-800 select-none rounded-xl p-3"
                               id="option-1"
                               role="option"
                               tabIndex="-1"
