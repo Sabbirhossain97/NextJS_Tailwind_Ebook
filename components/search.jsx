@@ -57,7 +57,11 @@ export default function Search() {
         onClick={() => {
           setToggleSearch(true);
         }}
-        className="mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-medium leading-4 text-white shadow-sm hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+        className={`${
+          toggleSearch
+            ? "hidden"
+            : "mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-sm leading-4 text-white shadow-sm hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -73,9 +77,7 @@ export default function Search() {
             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
           />
         </svg>
-        Search{" "}
-        {/* <span className="ml-3 mr-2 px-1 text-[.8rem]  border ">CTRL</span>
-        <span className="  mr-2 px-1 text-[.8rem]  border  ">K</span> */}
+        Search
       </button>
 
       {toggleSearch ? (
@@ -133,8 +135,7 @@ export default function Search() {
                               .toLowerCase()
                               .includes(searchQuery.toLowerCase())
                           ) {
-                           
-                             return val;                         
+                            return val;
                           }
                         })
                         .map((item, key) => (
@@ -174,7 +175,6 @@ export default function Search() {
                           </Link>
                         ))
                     : ""}
-
                 </ul>
               </div>
             </div>
