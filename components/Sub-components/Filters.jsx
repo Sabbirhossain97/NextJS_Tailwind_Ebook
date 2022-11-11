@@ -21,7 +21,7 @@ export default function Filters({ getBooks}) {
         console.log(error);
       } else {
         setActive(data);
-        console.log(data);
+        
       }
     } else {
       let { data, error } = await supabase.from("categories").select("*");

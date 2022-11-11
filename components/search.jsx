@@ -38,16 +38,7 @@ export default function Search() {
     };
   }, []);
 
-  //  const handleKeyPress = (event) => {
-  //   if (event.key === "Control" && event.key==="k") {
-  //     setToggleSearch(true);
-  //   }
-  //    console.log(`Key pressed: ${event.key}`);
-  //  }
-
-  // useEffect(() => {
-  //   window.addEventListener("keydown", handleKeyPress);
-  // }, []);
+  
 
   return (
     <div>
@@ -57,11 +48,7 @@ export default function Search() {
         onClick={() => {
           setToggleSearch(true);
         }}
-        className={`${
-          toggleSearch
-            ? "hidden"
-            : "mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-sm leading-4 text-white shadow-sm hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
-        }`}
+        className={"mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-sm leading-4 text-white  hover:bg-zinc-800 focus:outline-none "}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
