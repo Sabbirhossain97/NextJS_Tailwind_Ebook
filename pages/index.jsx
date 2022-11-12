@@ -53,36 +53,36 @@ export default function Index() {
 
   return (
     <div>
-      <div className="">
-        <Home />
-        <div className="bg-zinc-800 h-full sm:h-full">
-          <div className=" bg-zinc-800 mx-auto max-w-7xl  px-4 sm:px-6 lg:px-8  ">
-            {/*main container */}
+      <div>
+        <div className="">
+          <Home />
+          <div className="bg-zinc-800 h-full sm:h-full">
+            <div className=" bg-zinc-800 mx-auto max-w-7xl  px-4 sm:px-6 lg:px-8  ">
+              {/*main container */}
 
-            <Filters getBooks={getBooks} />
+              <Filters getBooks={getBooks} />
 
-            <section className="bg-zinc-800 pt-6 pb-24 w-full ">
-              <div className="grid grid-cols-1 grid-rows-1 gap-x-12 gap-y-10  lg:grid-cols-10 ">
-                {/*books container /start */}
-                <Authors getBooks={getBooks} />
-                <div className="lg:col-span-8 ">
-                  <div className=" rounded-lg  lg:h-full">
-                    <div className="flex justify-center"></div>
-                    <AnimatedPage>
-                      <ul className="bg-zinc-800  space-y-4 sm:grid sm:grid-cols-4 sm:gap-6 sm:space-y-0 lg:grid-cols-5 ">
-                        {booksInfo.map((item, key) => (
-                          <Link
-                            key={key}
-                            href={{
-                              pathname: "/Details",
-                              query: {
-                                id: item.id,
-                                category_name: item.categories.name,
-                                category_id: item.category_id,
-                              },
-                            }}
-                          >
-                            
+              <section className="bg-zinc-800 pt-6 pb-24 w-full ">
+                <div className="grid grid-cols-1 grid-rows-1 gap-x-12 gap-y-10  lg:grid-cols-10 ">
+                  {/*books container /start */}
+                  <Authors getBooks={getBooks} />
+                  <div className="lg:col-span-8 ">
+                    <div className=" rounded-lg  lg:h-full">
+                      <div className="flex justify-center"></div>
+                      <AnimatedPage>
+                        <ul className="bg-zinc-800  space-y-4 sm:grid sm:grid-cols-4 sm:gap-6 sm:space-y-0 lg:grid-cols-5 ">
+                          {booksInfo.map((item, key) => (
+                            <Link
+                              key={key}
+                              href={{
+                                pathname: "/Details",
+                                query: {
+                                  id: item.id,
+                                  category_name: item.categories.name,
+                                  category_id: item.category_id,
+                                },
+                              }}
+                            >
                               <li className="cursor-pointer scale-95 transition hover:scale-100 rounded-lg bg-zinc-900 py-2 px-1 text-center">
                                 <div className=" space-y-6 xl:space-y-4">
                                   <img
@@ -97,29 +97,39 @@ export default function Index() {
                                   </div>
                                 </div>
                               </li>
-                            
-                          </Link>
-                        ))}
-                      </ul>
-                    </AnimatedPage>
+                            </Link>
+                          ))}
+                        </ul>
+                      </AnimatedPage>
+                    </div>
                   </div>
+                  {/*books container /end */}
                 </div>
-                {/*books container /end */}
-              </div>
-            </section>
+              </section>
+            </div>
           </div>
         </div>
+        <AnimatedPage>
+          <Pagination
+            currentItems={currentItems}
+            itemsPerPage={itemsPerPage}
+            totalPage={totalPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalLength={totalLength}
+          />
+        </AnimatedPage>
       </div>
-      <AnimatedPage>
-        <Pagination
-          currentItems={currentItems}
-          itemsPerPage={itemsPerPage}
-          totalPage={totalPage}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalLength={totalLength}
-        />
-      </AnimatedPage>
+      <footer className="p-4 bg-white  shadow md:px-6 md:py-8 dark:bg-zinc-800">
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          © 2022{" "}
+          <a href="#" className="pointer-events-none hover:underline">
+            Bangla Ebook
+          </a>
+          . All Rights Reserved.
+        </span>
+      </footer>
     </div>
   );
 }
