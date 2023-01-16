@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "../api";
 import Link from "next/link";
+import Head from "next/head";
 import Home from "./Home";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper";
@@ -82,7 +83,7 @@ export default function Details() {
     },
     {
       field: 5,
-      gridStyles: "col-span-2",
+      gridStyles: "col-span-3",
     },
   ];
 
@@ -93,9 +94,11 @@ export default function Details() {
   useEffect(() => {
     getRelatedBooks();
   }, [categoryId]);
-
   return (
     <div>
+      <Head>
+        <title>Bangla Ebook</title>
+      </Head>
       <div>
         <Home />
 
@@ -158,8 +161,8 @@ export default function Details() {
                   <div className="h-screen bg-zinc-800">
                     <div className=" mx-auto mt-8  grid  grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-1">
                       <div className="  space-y-6 lg:col-span-2 lg:col-start-1">
-                        <section >
-                          <div className=" shadow sm:rounded-lg">
+                        <section>
+                          <div className="sm:rounded-lg">
                             <div className="mt-6 sm:mt-2 2xl:mt-5">
                               <div className="border-b border-zinc-600">
                                 <div className="mx-auto max-w-7xl  sm:px-6 lg:px-8">
@@ -213,11 +216,11 @@ export default function Details() {
                                           </h3>
                                         </div>
                                         <a
-                                          href="#"
+                                          href={`https://sabbirontheweb.com${val.link}`}
                                           className="block bg-zinc-700 px-2 py-2  mx-auto rounded-md text-center text-sm font-medium text-teal-500 hover:text-teal-600 sm:rounded-b-lg"
-                                          download={val.link}
+                                          download="example.pdf"
                                         >
-                                          Download Book
+                                          Download
                                         </a>
                                       </div>
                                     </li>
@@ -255,9 +258,10 @@ export default function Details() {
                                 <div>
                                   <div className="mt-[20px]">
                                     <a
-                                      href="#"
+                                      href={`https://sabbirontheweb.com${val.link}`}
                                       className="block bg-zinc-700 px-4 py-4 rounded-md text-center text-lg font-medium text-teal-500 hover:text-teal-600 sm:rounded-b-lg"
-                                      download={val.link}
+                                      download
+                                      target="_blank"
                                     >
                                       Download Book
                                     </a>
@@ -272,7 +276,7 @@ export default function Details() {
                           ""
                         ) : (
                           <section>
-                            <div className="bg-zinc-800 shadow sm:overflow-hidden sm:rounded-lg">
+                            <div className="bg-zinc-800 sm:overflow-hidden sm:rounded-lg">
                               <div className="divide-y divide-zinc-600">
                                 <div className="px-4 py-5 sm:px-6">
                                   <h2

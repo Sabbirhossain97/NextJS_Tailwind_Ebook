@@ -16,7 +16,6 @@ export default function Authors({getBooks}) {
     }
    })
   setActiveAuthorId(activeId[0].id);
-  console.log(activeAuthorId);
   }
   const fetchMoreAuthorByClick = (e) => {
     e.preventDefault();

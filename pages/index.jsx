@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../api";
 import Link from "next/link";
+import Head from "next/head";
 import Home from "./Home";
 import Pagination from "../components/pagination";
 import Authors from "../components/Authors";
@@ -54,6 +55,9 @@ export default function Index() {
 
   return (
     <div>
+      <Head>
+        <title>Bangla Ebook</title>
+      </Head>
       <div>
         <div className="">
           <Home />
