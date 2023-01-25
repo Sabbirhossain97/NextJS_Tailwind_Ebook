@@ -80,7 +80,7 @@ export default function Filters({ getBooks}) {
 
   useEffect(() => {
     const closeCategoryBar = (e) => {
-      if (e.path[0] !== categoryOpener.current) {
+      if (categoryOpener.current && !categoryOpener.current.contains(e.target)) {
         setDropDownCategories(false);
         setDropDownAuthor(false);
       }
@@ -89,7 +89,7 @@ export default function Filters({ getBooks}) {
     return () => {
       document.body.removeEventListener("click", closeCategoryBar);
     };
-  }, []);
+  }, [categoryOpener, setDropDownCategories]);
 
   return (
     <div>

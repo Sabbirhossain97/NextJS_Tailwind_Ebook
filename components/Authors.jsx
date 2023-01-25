@@ -1,43 +1,40 @@
-import React from 'react'
+import React from "react";
 import { useState, useEffect } from "react";
-import { supabase } from '../api';
+import { supabase } from "../api";
 
-export default function Authors({getBooks}) {
+export default function Authors({ getBooks }) {
   const [authors, setAuthors] = useState([]);
   const [authorCount, setAuthorCount] = useState(4);
-  const [totalAuthors,setTotalAuthors]= useState(null);
-  const [activeAuthorId,setActiveAuthorId]= useState([])
+  const [totalAuthors, setTotalAuthors] = useState(null);
+  const [activeAuthorId, setActiveAuthorId] = useState([]);
 
-  const getActiveAuthor =(id)=>{
-   let activeId=authors.filter((item)=>{
-    if(item.id == id){
-      return item.id
-     
-    }
-   })
-  setActiveAuthorId(activeId[0].id);
-  }
+  const getActiveAuthor = (id) => {
+    let activeId = authors.filter((item) => {
+      if (item.id == id) {
+        return item.id;
+      }
+    });
+    setActiveAuthorId(activeId[0].id);
+  };
   const fetchMoreAuthorByClick = (e) => {
     e.preventDefault();
     setAuthorCount((prevState) => prevState + 3);
   };
   const getAuthorsNames = async (e) => {
-    let { data,count, error } = await supabase
+    let { data, count, error } = await supabase
       .from("authors")
-      .select("*",{count: 'exact'})
+      .select("*", { count: "exact" })
       .range(0, authorCount);
     if (error) {
       console.log(error);
     } else {
-      setTotalAuthors(count)
+      setTotalAuthors(count);
       setAuthors(data);
-      
     }
   };
   useEffect(() => {
     getAuthorsNames();
   }, [authorCount]);
-  
 
   return (
     <div className=" hidden lg:col-span-2 lg:block ">
@@ -89,23 +86,6 @@ export default function Authors({getBooks}) {
                 className="w-full mt-4 px-1  py-1 rounded-md text-md text-teal-500 hover:text-teal-400 bg-zinc-700 hover:bg-zinc-900"
               >
                 See more
-                {/* <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    color="gray"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-4 h-4 mt-[5px] ml-[3px]"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
-                    />
-                  </svg>
-                </span> */}
               </button>
             </div>
           )}

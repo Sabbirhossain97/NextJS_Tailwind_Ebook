@@ -7,7 +7,7 @@ export default function Search() {
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks]= useState([])
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const searchBarOpener = useRef();
 
   const getBooksBySearch = async (e) => {
@@ -18,7 +18,6 @@ export default function Search() {
       console.log(error);
     } else {
       setSearchedBooks(data);
-      
     }
   };
   useEffect(() => {
@@ -27,18 +26,19 @@ export default function Search() {
 
   useEffect(() => {
     const closeSearchBar = (e) => {
-      if (e.path[0] !== searchBarOpener.current) {
+      if (
+        searchBarOpener.current &&
+        !searchBarOpener.current.contains(e.target)
+      ) {
         setToggleSearch(false);
-        setSearchQuery("")
+        setSearchQuery("");
       }
     };
     document.body.addEventListener("click", closeSearchBar);
     return () => {
       document.body.removeEventListener("click", closeSearchBar);
     };
-  }, []);
-
-  
+  }, [searchBarOpener, setToggleSearch]);
 
   return (
     <div>
@@ -48,7 +48,9 @@ export default function Search() {
         onClick={() => {
           setToggleSearch(true);
         }}
-        className={"mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-sm leading-4 text-white  hover:bg-zinc-800 focus:outline-none "}
+        className={
+          "mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-sm leading-4 text-white  hover:bg-zinc-800 focus:outline-none "
+        }
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -68,14 +70,14 @@ export default function Search() {
       </button>
 
       {toggleSearch ? (
-        <div className={`relative z-10 `} role="dialog" aria-modal="true">
+        <div className={`relative z-10 `}>
           <div
             className={`fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity  
             backdrop-blur-sm
           `}
           ></div>
 
-          <div className="relative z-10" role="dialog" aria-modal="true">
+          <div className="relative z-10">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
 
             <div className=" fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">

@@ -158,7 +158,7 @@ export default function Details() {
                       </div>
                     </div>
                   </div>
-                  <div className="h-screen bg-zinc-800">
+                  <div className="h-full bg-zinc-800">
                     <div className=" mx-auto mt-8  grid  grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-1">
                       <div className="  space-y-6 lg:col-span-2 lg:col-start-1">
                         <section>
@@ -289,11 +289,10 @@ export default function Details() {
                                 <div className="bg-zinc-800">
                                   <Swiper
                                     modules={[Navigation, Pagination, A11y]}
-                                    spaceBetween={50}
-                                    slidesPerView={4}
-                                    navigation
+                                    spaceBetween={20}
+                                    slidesPerView={6}
                                     pagination={{ clickable: true }}
-                                    style={{ padding: "50px" }}
+                                    style={{ marginTop: "20px" }}
                                   >
                                     <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-1 sm:gap-x-6 lg:grid-cols-2 xl:gap-x-8">
                                       {relatedBooks.map((val, key) => (
