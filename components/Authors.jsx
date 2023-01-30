@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../api";
 
 export default function Authors({ getBooks }) {
@@ -43,7 +43,7 @@ export default function Authors({ getBooks }) {
           <span className=" ml-5 font-bold text-3xl text-gray-200">
             Authors
           </span>
-          <span className="ml-3 inline-flex rounded-lg items-center mt-1 bg-gray-100 px-3 py-1 text-xs font-medium text-zinc-500">
+          <span className="ml-3 inline-flex rounded-lg items-center mt-1 bg-gray-500/50 px-3 py-1 text-xs font-medium text-gray-100">
             {totalAuthors}
           </span>
           <span className="ml-6 flex items-center"></span>
@@ -51,9 +51,9 @@ export default function Authors({ getBooks }) {
       </h3>
       <div className="pt-6" id="filter-section-0">
         <div className="space-y-2">
-          {authors.map((item) => (
+          {authors.map((item, key) => (
             <li
-              key={item.id}
+              key={key}
               onClick={() => {
                 getBooks(item.id);
                 getActiveAuthor(item.id);

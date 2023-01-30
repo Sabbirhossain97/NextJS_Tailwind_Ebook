@@ -7,7 +7,6 @@ export default function Search() {
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
   const searchBarOpener = useRef();
 
   const getBooksBySearch = async (e) => {
@@ -49,16 +48,17 @@ export default function Search() {
           setToggleSearch(true);
         }}
         className={
-          "mt-[15px] w-64 inline-flex items-center  border border-transparent bg-zinc-600 px-3 py-2 rounded-md text-lg font-sm leading-4 text-white  hover:bg-zinc-800 focus:outline-none "
+          "mt-[15px] w-64 inline-flex items-center border border-transparent bg-zinc-800 px-3 py-2 rounded-md text-sm font-sm leading-4 text-white  hover:bg-zinc-900 focus:outline-none "
         }
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
+          color="white"
           viewBox="0 0 24 24"
-          strokeWidth="1.5"
+          strokeWidth="2.5"
           stroke="currentColor"
-          className="w-5 h-5 mr-1"
+          className="w-4 h-4 mr-1 font-bold"
         >
           <path
             strokeLinecap="round"
@@ -66,7 +66,7 @@ export default function Search() {
             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
           />
         </svg>
-        Search
+        <span className=" font-bold">Search</span>
       </button>
 
       {toggleSearch ? (
@@ -103,16 +103,47 @@ export default function Search() {
                     type="text"
                     className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-100 placeholder-gray-400 focus:ring-1 sm:text-sm"
                     placeholder="Search..."
-                    role="combobox"
-                    aria-expanded="false"
-                    aria-controls="options"
+                    required
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
 
                 <ul className="bg-zinc-900 max-h-96 overflow-y-auto ">
-                  {searchQuery
-                    ? searchedBooks
+                  {searchQuery ? (
+                    searchedBooks.filter((val) => {
+                      if (searchQuery === "") {
+                        return val;
+                      } else if (
+                        val.title
+                          .toLowerCase()
+                          .includes(searchQuery.toLowerCase()) ||
+                        val.authors.name
+                          .toLowerCase()
+                          .includes(searchQuery.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    }).length === 0 ? (
+                      <div className="h-24 text-center flex flex-row  justify-center items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="h-5 w-5 text-red-500"
+                          fill="red"
+                        >
+                          <g data-name="Layer 2">
+                            <g data-name="alert-circle">
+                              <rect width="5" height="5" opacity="0" />
+                              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                              <circle cx="12" cy="16" r="1" />
+                              <path d="M12 7a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1z" />
+                            </g>
+                          </g>
+                        </svg>
+                        <p className="text-white ml-1 mt-0.5">No Books found!</p>
+                      </div>
+                    ) : (
+                      searchedBooks
                         .filter((val) => {
                           if (searchQuery === "") {
                             return val;
@@ -139,12 +170,7 @@ export default function Search() {
                               },
                             }}
                           >
-                            <li
-                              className="cursor-pointer group flex hover:bg-zinc-800 select-none rounded-xl p-3"
-                              id="option-1"
-                              role="option"
-                              tabIndex="-1"
-                            >
+                            <li className="cursor-pointer group flex hover:bg-zinc-800 select-none rounded-xl p-3">
                               <div className="flex h-24 w-20 flex-none items-center justify-center rounded-lg bg-zinc-900">
                                 <img
                                   className="object-contain mx-auto  px-2 rounded-md py-1"
@@ -163,7 +189,10 @@ export default function Search() {
                             </li>
                           </Link>
                         ))
-                    : ""}
+                    )
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </div>
             </div>

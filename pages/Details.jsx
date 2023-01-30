@@ -83,7 +83,7 @@ export default function Details() {
     },
     {
       field: 5,
-      gridStyles: "col-span-3",
+      gridStyles: "col-span-2",
     },
   ];
 
@@ -104,20 +104,20 @@ export default function Details() {
 
         {/*new section here */}
 
-        <div className="h-full mx-auto bg-zinc-800">
+        <div className=" h-full mx-auto bg-zinc-800">
           {booksInfo.map((val, key) => (
             <li className="list-none" key={key}>
               <div>
                 <div className="h-52 lg:h-52 bg-zinc-900 flex flex-col justify-center ">
                   <div className="flex flex-col mx-auto items-end w-3/4">
-                    <h1 className="mx-auto text-zinc-300 text-3xl flex justify-center w-3/4 items-center   md:w-full md:text-center lg:text-center lg:w-full">
+                    <h1 className="mx-auto text-zinc-300 text-2xl flex justify-center w-3/4 items-center   md:w-full md:text-center lg:text-center lg:w-full">
                       {
                         val.authors.description[
                           Object.keys(val.authors.description)[0]
                         ]
                       }
                     </h1>
-                    <h3 className="mt-[10px] text-xl text-zinc-300 ">
+                    <h3 className="mt-[10px] text-2xl text-zinc-300 ">
                       &mdash;{" "}
                       <span className="text-teal-500">{val.authors.name}</span>
                     </h3>
@@ -133,20 +133,19 @@ export default function Details() {
                             src={val.image}
                             alt=""
                           />
-                          <span className="absolute inset-0 rounded-full shadow-inner"></span>
                         </div>
                       </div>
                       <div className="mt-[20px]">
-                        <h1 className="text-3xl font-bold text-gray-200">
+                        <h1 className="text-2xl font-bold text-gray-200">
                           {val.title}
                         </h1>
-                        <p className="text-2xl font-medium text-gray-500 mt-2">
+                        <p className="text-xl font-medium text-gray-500 mt-2">
                           Category{" "}
                           <span className="italic text-teal-500">
                             {categoryName}
                           </span>
                         </p>
-                        <p className="text-2xl font-medium text-gray-500 mt-2">
+                        <p className="text-xl font-medium text-gray-500 mt-2">
                           Written By
                           <a
                             href="#"
@@ -159,13 +158,13 @@ export default function Details() {
                     </div>
                   </div>
                   <div className="h-full bg-zinc-800">
-                    <div className=" mx-auto mt-8  grid  grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-1">
-                      <div className="  space-y-6 lg:col-span-2 lg:col-start-1">
+                    <div className="mx-auto mt-8  grid  grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-1">
+                      <div className="space-y-6 lg:col-span-2 lg:col-start-1">
                         <section>
                           <div className="sm:rounded-lg">
                             <div className="mt-6 sm:mt-2 2xl:mt-5">
                               <div className="border-b border-zinc-600">
-                                <div className="mx-auto max-w-7xl  sm:px-6 lg:px-8">
+                                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                                   <nav className="flex ">
                                     <p
                                       onClick={() => {
@@ -173,8 +172,8 @@ export default function Details() {
                                       }}
                                       className={`${
                                         toggleTabs
-                                          ? "cursor-pointer text-gray-100 text-xl  whitespace-nowrap py-4 px-2 font-medium "
-                                          : "cursor-pointer text-gray-100 text-xl border-b border-teal-500 whitespace-nowrap py-4 px-2 font-medium  "
+                                          ? "cursor-pointer text-gray-100 text-lg  whitespace-nowrap py-4 px-2 font-medium "
+                                          : "cursor-pointer text-gray-100 text-lg border-b border-teal-500 whitespace-nowrap py-4 px-2 font-medium  "
                                       }`}
                                     >
                                       Author Info
@@ -186,8 +185,8 @@ export default function Details() {
                                       }}
                                       className={`${
                                         toggleTabs
-                                          ? "cursor-pointer border-b border-teal-500 ml-[50px] text-gray-100 text-xl whitespace-nowrap py-4 px-1 font-medium"
-                                          : "cursor-pointer ml-[50px] text-gray-100 text-xl whitespace-nowrap py-4 px-1 font-medium"
+                                          ? "cursor-pointer border-b border-teal-500 ml-[50px] text-gray-100 text-lg whitespace-nowrap py-4 px-1 font-medium"
+                                          : "cursor-pointer ml-[50px] text-gray-100 text-lg whitespace-nowrap py-4 px-1 font-medium"
                                       }`}
                                     >
                                       More Books
@@ -230,27 +229,29 @@ export default function Details() {
                             ) : (
                               <div>
                                 <div className=" px-4 py-5 sm:px-6">
-                                  <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                                  <dl className="grid grid-cols-2 gap-x-4 gap-y-8 ">
                                     {information.map((item, key) => (
-                                      <li key={key} className="list-none">
-                                        <div className={item.gridStyles}>
-                                          <dt className="text-xl font-medium text-gray-100">
-                                            {
+                                      <li
+                                        key={key}
+                                        className={`${item.gridStyles} list-none`}
+                                      >
+                                        <dt className="text-md font-bold text-gray-100">
+                                          {
+                                            Object.keys(
+                                              val.authors.description
+                                            )[item.field]
+                                          }
+                                        </dt>
+
+                                        <dd className="mt-1 text-md font-normal text-gray-400">
+                                          {
+                                            val.authors.description[
                                               Object.keys(
                                                 val.authors.description
                                               )[item.field]
-                                            }
-                                          </dt>
-                                          <dd className="mt-1 text-lg font-medium text-gray-400">
-                                            {
-                                              val.authors.description[
-                                                Object.keys(
-                                                  val.authors.description
-                                                )[item.field]
-                                              ]
-                                            }
-                                          </dd>
-                                        </div>
+                                            ]
+                                          }
+                                        </dd>
                                       </li>
                                     ))}
                                   </dl>
@@ -259,7 +260,7 @@ export default function Details() {
                                   <div className="mt-[20px]">
                                     <a
                                       href={`https://sabbirontheweb.com${val.link}`}
-                                      className="block bg-zinc-700 px-4 py-4 rounded-md text-center text-lg font-medium text-teal-500 hover:text-teal-600 sm:rounded-b-lg"
+                                      className="block bg-zinc-700 px-2 py-2 rounded-md text-center text-lg font-medium text-teal-500 hover:text-teal-400 sm:rounded-b-lg"
                                       download
                                       target="_blank"
                                     >
@@ -289,6 +290,28 @@ export default function Details() {
                                 <div className="bg-zinc-800">
                                   <Swiper
                                     modules={[Navigation, Pagination, A11y]}
+                                    breakpoints={{
+                                      320: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 10,
+                                      },
+                                      640: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 20,
+                                      },
+                                      768: {
+                                        slidesPerView: 4,
+                                        spaceBetween: 20,
+                                      },
+                                      1024: {
+                                        slidesPerView: 4,
+                                        spaceBetween: 20,
+                                      },
+                                      1536: {
+                                        slidesPerView: 6,
+                                        spaceBetween: 20,
+                                      },
+                                    }}
                                     spaceBetween={20}
                                     slidesPerView={6}
                                     pagination={{ clickable: true }}

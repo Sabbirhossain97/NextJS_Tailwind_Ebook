@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       <div className="h-full w-full bg-zinc-700 shadow-sm lg:static lg:overflow-y-visible ">
-        <div className="h-16 bg-zinc-700 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="h-16 bg-zinc-700/70 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className=" flex flex-row justify-between ">
             <Link href="/" className="cursor-pointer">
               <a className="text-white text-xl ml-[10px] mt-[15px]">

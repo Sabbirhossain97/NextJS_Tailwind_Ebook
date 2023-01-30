@@ -23,7 +23,7 @@ export default function Pagination({ currentPage,  itemsPerPage,totalLength, set
                   onClick={() => {
                     setCurrentPage(page);
                   }}
-                  className="cursor-pointer bg-zinc-500 bg-transparent border-zinc-800 hover:border-teal-500 hover:inline-flex items-center px-3 py-3 text-sm font-medium text-gray-100 hover:text-gray-200"
+                  className="cursor-pointer bg-zinc-500 bg-transparent border-zinc-800 hover:border-b hover:border-teal-500 hover:inline-flex items-center px-3 py-3 text-sm font-medium text-gray-100 hover:text-gray-200"
                 >
                   {page}
                 </p>
