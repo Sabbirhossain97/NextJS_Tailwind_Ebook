@@ -1,19 +1,24 @@
-import React from 'react'
+import React from "react";
 
-
-export default function Pagination({ currentPage,  itemsPerPage,totalLength, setCurrentPage }) {
+export default function Pagination({
+  currentPage,
+  itemsPerPage,
+  totalLength,
+  setCurrentPage,
+}) {
   let array = [];
-  for (let i = 1; i <= Math.ceil(totalLength/itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalLength / itemsPerPage); i++) {
     array.push(i);
   }
 
-
   return (
     <div>
-      <nav className="bg-zinc-800  w-full mx-auto h-24 flex items-center justify-center  px-2 sm:px-0">
-        <div className=" md:-mt-px flex">
+      <nav className="bg-zinc-800 w-full xs:mx-auto mx-auto h-24 flex items-center justify-center xs:flex xs:flex-wrap  px-2 sm:px-0  ">
+        <div
+          className={`md:-mt-px grid grid-rows-1 grid-cols-${array.length} w-fit`}
+        >
           {array.map((page, key) => (
-            <li key={key} className="list-none px-2 py-2 ">
+            <li key={key} className=" list-none px-2 py-2 ">
               <button
                 className={
                   page === currentPage ? "border-b border-teal-500" : ""

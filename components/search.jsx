@@ -48,7 +48,7 @@ export default function Search() {
           setToggleSearch(true);
         }}
         className={
-          "mt-[15px] w-64 inline-flex items-center border border-transparent bg-zinc-800 px-3 py-2 rounded-md text-sm font-sm leading-4 text-white  hover:bg-zinc-900 focus:outline-none "
+          "shadow-sm shadow-black mt-[15px] xs:w-44 sm:w-64 inline-flex items-center border border-transparent bg-zinc-800 px-3 py-2 rounded-md text-sm font-sm leading-4 text-white  hover:bg-zinc-900 focus:outline-none "
         }
       >
         <svg
@@ -175,7 +175,7 @@ export default function Search() {
                                 <img
                                   className="object-contain mx-auto  px-2 rounded-md py-1"
                                   src={item.image}
-                                  alt=""
+                                  alt="error"
                                 />
                               </div>
                               <div className="ml-4 flex-auto">

@@ -5,7 +5,8 @@ import { supabase } from "../../api";
 export default function Filters({ getBooks }) {
   const [active, setActive] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [authors, setAuthors] = useState([]);
+  const [totalAuthors, setTotalAuthors] = useState([]);
+  const [singleAuthor, setSingleAuthor]=useState(null)
   const [dropDownCategories, setDropDownCategories] = useState(false);
   const [dropDownAuthor, setDropDownAuthor] = useState(false);
   const categoryOpener = useRef();
@@ -31,15 +32,26 @@ export default function Filters({ getBooks }) {
     }
   };
 
-  const getAuthorsNames = async () => {
+  const getAuthorsNames = async (id) => {
     let { data, error } = await supabase.from("authors").select("*");
     if (error) {
       console.log(error);
     } else {
-      setAuthors(data);
+      setTotalAuthors(data);
     }
   };
-  console.log(authors);
+
+  const getSingleAuthorName = async (id) => {
+    let { data, error } = await supabase
+      .from("authors")
+      .select("name")
+      .match({ id: id });
+    if (error) {
+      console.log(error);
+    } else {
+      setSingleAuthor(data);
+    }
+  };
   const get_books_by_category = async (id) => {
     let { data, error } = await supabase
       .from("books_duplicate")
@@ -83,14 +95,14 @@ export default function Filters({ getBooks }) {
       <div className="flex flex-row justify-end">
         {/* Authors for small screen /start*/}
         <div className="lg:hidden flex pt-8 justify-end mr-4">
-          <div className="inline-flex rounded-sm shadow-sm">
-            <p className="h-10 relative inline-flex items-center rounded-l-md border border-zinc-800 bg-zinc-700 px-4 py-2 text-sm font-bold text-white focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-              Authors
+          <div className="inline-flex rounded-sm shadow-lg">
+            <p className="shadow-sm shadow-black h-10 relative inline-flex items-center rounded-l-md border border-zinc-800 bg-zinc-700 px-4 py-2 text-sm font-bold text-white focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+              {singleAuthor ? singleAuthor[0].name : "Authors"}
             </p>
             <div className="relative -ml-px block">
               <button
                 type="button"
-                className="h-10 relative inline-flex items-center rounded-r-md border border-zinc-800 bg-zinc-700 px-2 py-2 text-sm font-bold text-gray-500 hover:bg-zinc-700/50 focus:z-10  focus:outline-none  "
+                className="shadow-sm shadow-black h-10 relative inline-flex items-center rounded-r-md border border-zinc-800 bg-zinc-700 px-2 py-2 text-sm font-bold text-gray-500 hover:bg-zinc-700/50 focus:z-10  focus:outline-none  "
               >
                 {dropDownAuthor ? (
                   <svg
@@ -137,11 +149,12 @@ export default function Filters({ getBooks }) {
                     dropDownAuthor ? "w-56" : "w-0"
                   } transition-all ease-linear absolute right-0 z-10 mt-2 -mr-1 duration-300 origin-top-right rounded-md bg-zinc-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                 >
-                  {authors.map((val, key) => (
+                  {totalAuthors.map((val, key) => (
                     <div className="py-1" role="none" key={key}>
                       <p
                         onClick={() => {
                           getBooks(val.id);
+                          getSingleAuthorName(val.id);
                         }}
                         className="font-normal cursor-pointer text-white hover:bg-zinc-800/20 hover:text-teal-500 block px-4 py-2 text-sm"
                       >
@@ -161,13 +174,13 @@ export default function Filters({ getBooks }) {
         {/* categories */}
         <div className="flex pt-8 justify-end">
           <div className="inline-flex rounded-sm shadow-sm">
-            <p className="h-10 relative inline-flex items-center rounded-l-md border border-zinc-800 bg-zinc-700 px-4 py-2 text-sm font-bold text-white focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <p className="shadow-sm shadow-black h-10 relative inline-flex items-center rounded-l-md border border-zinc-800 bg-zinc-700 px-4 py-2 text-sm font-bold text-white focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
               {active ? active[0].name : "Categories"}
             </p>
             <div className="relative -ml-px block">
               <button
                 type="button"
-                className="h-10 relative inline-flex items-center rounded-r-md border border-zinc-800 bg-zinc-700 px-2 py-2 text-sm font-bold text-gray-500 hover:bg-zinc-700/50 focus:z-10  focus:outline-none  "
+                className="shadow-sm shadow-black h-10 relative inline-flex items-center rounded-r-md border border-zinc-800 bg-zinc-700 px-2 py-2 text-sm font-bold text-gray-500 hover:bg-zinc-700/50 focus:z-10  focus:outline-none  "
               >
                 {dropDownCategories ? (
                   <svg
