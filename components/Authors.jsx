@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../api";
 
 export default function Authors({ getBooks }) {
@@ -46,7 +46,7 @@ export default function Authors({ getBooks }) {
           <span className=" inline-flex rounded-md items-center mt-1 bg-gray-500/50 px-3 py-1 text-xs font-medium text-gray-100">
             {totalAuthors}
           </span>
-          <span className="ml-6 flex items-center"></span>
+          <span className="mr-12 flex items-center"></span>
         </p>
       </h3>
       <div className="pt-6">
@@ -61,9 +61,9 @@ export default function Authors({ getBooks }) {
               className="list-none cursor-pointer transition "
             >
               <div
-                className={` flex flex-row items-center pl-4 hover:border-l-4 hover:border-teal-500 ${
+                className={` flex flex-row items-center pl-4 rounded-md hover:border-l-4 hover:border-teal-500 ${
                   item.id == activeAuthorId
-                    ? "border-l-4 border-teal-500 transition"
+                    ? "border-l-4 border-teal-500 "
                     : ""
                 } `}
               >

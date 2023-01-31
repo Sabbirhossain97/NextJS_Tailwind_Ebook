@@ -62,7 +62,7 @@ export default function Filters({ getBooks }) {
       console.error(error);
     } else {
       getBooks(data);
-      //console.log(data)
+      console.log(data)
     }
   };
 
@@ -224,11 +224,13 @@ export default function Filters({ getBooks }) {
                 <div
                   onClick={(e) => e.stopPropagation()}
                   className={`${
-                    dropDownCategories ? "w-56" : "w-0"
-                  } transition-all ease-linear absolute right-0 z-10 mt-2 -mr-1 duration-300 origin-top-right rounded-md bg-zinc-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                    dropDownCategories
+                      ? "w-56  "
+                      : "w-0 "
+                  } transition-all ease-in-out absolute right-0 z-10 mt-2 -mr-1 duration-300 origin-top-right rounded-md bg-zinc-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                 >
                   {categories.map((val, key) => (
-                    <div className="py-1" role="none" key={key}>
+                    <div className="py-1" key={key}>
                       <p
                         onClick={() => {
                           get_books_by_category(val.id);

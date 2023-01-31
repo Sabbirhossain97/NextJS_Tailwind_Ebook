@@ -8,8 +8,8 @@ import Authors from "../components/Authors";
 import Filters from "../components/Sub-components/Filters";
 import Footer from "../components/Footer";
 import Spinner from "../components/Sub-components/Spinner";
-import AnimatedPage from "../components/Sub-components/AnimatedPages";
-import SlideAnimation from "../components/Sub-components/SlideAnimation"
+import OpacityAnimation from "../components/Sub-components/OpacityAnimation";
+
 export default function Index() {
   const [booksInfo, setBooksInfo] = useState([]);
   const [itemsPerPage] = useState(14);
@@ -51,6 +51,7 @@ export default function Index() {
   useEffect(() => {
     getBooks();
   }, [currentPage]);
+
   setTimeout(() => setDelay(1), 1500);
 
   const lastItemIndex = currentPage * itemsPerPage;
@@ -60,78 +61,74 @@ export default function Index() {
   return delay === 0 ? (
     <Spinner />
   ) : (
-    <AnimatedPage>
+    <OpacityAnimation>
       <div className="overflow-hidden  ">
         <Head>
           <title>Bangla Ebook</title>
           <link rel="shortcut icon" href="/book.svg"></link>
         </Head>
-        <div className="">
-          <div className="font-sans  ">
-            <Home />
-            <div className=" bg-zinc-800 h-full w-full sm:h-full ">
-              <div className=" bg-zinc-800 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8  ">
-                {/*main container */}
 
-                <Filters getBooks={getBooks} />
-
-                <section className="bg-zinc-800 pt-6 pb-24 w-full ">
-                  <div className="grid grid-cols-1 grid-rows-1 gap-x-12 gap-y-10  lg:grid-cols-10 ">
-                    {/*books container /start */}
-                    <Authors getBooks={getBooks} />
-                    <div className="lg:col-span-8 ">
-                      <div className="h-full rounded-lg  lg:h-full">
-                        <SlideAnimation>
-                          <ul className="bg-zinc-800  space-y-4 xs:grid xs:grid-cols-2 xs:gap-6 xs:space-y-0 sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 ">
-                            {booksInfo.map((item, key) => (
-                              <Link
-                                key={key}
-                                href={{
-                                  pathname: "/Details",
-                                  query: {
-                                    id: item.id,
-                                    category_name: item.categories.name,
-                                    category_id: item.category_id,
-                                  },
-                                }}
-                              >
-                                <li className=" shadow-md shadow-black cursor-pointer scale-95 transition hover:scale-100 hover:shadow-lg hover:shadow-black rounded-lg bg-zinc-900 py-2 px-1 text-center">
-                                  <div className=" space-y-6 xl:space-y-4">
-                                    <img
-                                      className="object-cover mx-auto  px-2 rounded-md py-1"
-                                      src={item.image}
-                                      alt="error"
-                                    />
-                                    <div className="h-12 space-y-1 text-center font-normal leading-6">
-                                      <h3 className="text-sm text-white ">
-                                        {item.title}
-                                      </h3>
-                                    </div>
-                                  </div>
-                                </li>
-                              </Link>
-                            ))}
-                          </ul>
-                        </SlideAnimation>
-                      </div>
+        <div className="font-sans  ">
+          <Home />
+          <div className=" bg-zinc-800 w-full sm:h-full ">
+            <div className=" bg-zinc-800 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8  ">
+              {/*main container */}
+              <Filters getBooks={getBooks} />
+              <section className="bg-zinc-800 pt-6 pb-24 w-full ">
+                <div className="grid grid-cols-1 grid-rows-1 gap-x-12 gap-y-10  lg:grid-cols-10 ">
+                  {/*books container /start */}
+                  <Authors getBooks={getBooks} />
+                  <div className="lg:col-span-8 ">
+                    <div className="h-full rounded-lg lg:h-full">
+                      <ul className="bg-zinc-800 space-y-4 xs:grid xs:grid-cols-2 xs:gap-6 xs:space-y-0 sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 ">
+                        {booksInfo.map((item, key) => (
+                          <Link
+                            key={key}
+                            href={{
+                              pathname: "/Details",
+                              query: {
+                                id: item.id,
+                                category_name: item.categories.name,
+                                category_id: item.category_id,
+                              },
+                            }}
+                          >
+                            <li className=" shadow-md shadow-black cursor-pointer scale-95 transition hover:scale-100 hover:shadow-lg hover:shadow-black rounded-lg bg-zinc-900 py-2 px-1 text-center">
+                              <div className=" space-y-6 xl:space-y-4">
+                                <img
+                                  className="object-cover mx-auto  px-2 rounded-md py-1"
+                                  src={item.image}
+                                  alt="error"
+                                />
+                                <div className="h-12 space-y-1 text-center font-normal leading-6">
+                                  <h3 className="text-sm text-white font-light tracking-wide">
+                                    {item.title.slice(0, 1) +
+                                      item.title.slice(1).toLowerCase()}
+                                  </h3>
+                                </div>
+                              </div>
+                            </li>
+                          </Link>
+                        ))}
+                      </ul>
                     </div>
-                    {/*books container /end */}
                   </div>
-                </section>
-              </div>
+                  {/*books container /end */}
+                </div>
+              </section>
             </div>
           </div>
-          <Pagination
-            currentItems={currentItems}
-            itemsPerPage={itemsPerPage}
-            totalPage={totalPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalLength={totalLength}
-          />
         </div>
-        <Footer />
+        <Pagination
+          currentItems={currentItems}
+          itemsPerPage={itemsPerPage}
+          totalPage={totalPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalLength={totalLength}
+        />
       </div>
-    </AnimatedPage>
+      <Footer />
+    </OpacityAnimation>
   );
 }

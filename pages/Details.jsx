@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/bundle";
 import Footer from "../components/Footer";
-import AnimatedPage from "../components/Sub-components/AnimatedPages";
+import OpacityAnimation from "../components/Sub-components/OpacityAnimation";
 import Spinner from "../components/Sub-components/Spinner";
 import SlideAnimation from "../components/Sub-components/SlideAnimation";
 export default function Details() {
@@ -101,7 +101,7 @@ export default function Details() {
   return delay === 0 ? (
     <Spinner />
   ) : (
-    <AnimatedPage>
+    <OpacityAnimation>
       <div className="overflow-hidden">
         <Head>
           <title>Bangla Ebook</title>
@@ -234,7 +234,7 @@ export default function Details() {
                                   </ul>
                                 </SlideAnimation>
                               ) : (
-                                <AnimatedPage>
+                                <OpacityAnimation>
                                   <div>
                                     <div className=" px-4 py-5 sm:px-6">
                                       <dl className="grid grid-cols-2 gap-x-4 gap-y-8 ">
@@ -277,7 +277,7 @@ export default function Details() {
                                       </div>
                                     </div>
                                   </div>
-                                </AnimatedPage>
+                                </OpacityAnimation>
                               )}
                             </div>
                           </section>
@@ -322,7 +322,6 @@ export default function Details() {
                                           spaceBetween: 10,
                                         },
                                       }}
-                                      
                                       style={{ marginTop: "20px" }}
                                       pagination={{
                                         clickable: true,
@@ -330,8 +329,8 @@ export default function Details() {
                                     >
                                       <ul className="">
                                         {relatedBooks.map((val, key) => (
-                                          <SwiperSlide>
-                                            <li key={key} className="relative ">
+                                          <SwiperSlide key={key}>
+                                            <li className="relative ">
                                               <Link
                                                 href={{
                                                   pathname: "/Details",
@@ -377,6 +376,6 @@ export default function Details() {
         </div>
         <Footer />
       </div>
-    </AnimatedPage>
+    </OpacityAnimation>
   );
 }

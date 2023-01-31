@@ -15,7 +15,7 @@ export default function Pagination({
     <div>
       <nav className="bg-zinc-800 w-full xs:mx-auto mx-auto h-24 flex items-center justify-center xs:flex xs:flex-wrap  px-2 sm:px-0  ">
         <div
-          className={`md:-mt-px grid grid-rows-1 grid-cols-${array.length} w-fit`}
+          className={`md:-mt-px grid grid-rows-1 grid-cols-11 `}
         >
           {array.map((page, key) => (
             <li key={key} className=" list-none px-2 py-2 ">
