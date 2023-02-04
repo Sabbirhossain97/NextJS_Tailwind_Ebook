@@ -323,9 +323,7 @@ export default function Details() {
                                         },
                                       }}
                                       style={{ marginTop: "20px" }}
-                                      pagination={{
-                                        clickable: true,
-                                      }}
+                                     
                                     >
                                       <ul className="">
                                         {relatedBooks.map((val, key) => (
