@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { supabase } from "../api";
+import { supabase } from "../utils/supabase";
 import Loading from "./Sub-components/Loading";
 
 export default function Authors({ getBooks }) {

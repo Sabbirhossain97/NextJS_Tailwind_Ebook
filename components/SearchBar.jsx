@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "../api";
+import { supabase } from "../utils/supabase";
 import Link from "next/link";
 
 export default function Search() {

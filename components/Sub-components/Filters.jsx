@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "../../api";
+import { supabase } from "../../utils/supabase";
 
 export default function Filters({ getBooks }) {
   const [active, setActive] = useState(null);

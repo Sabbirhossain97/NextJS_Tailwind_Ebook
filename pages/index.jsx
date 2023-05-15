@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../api";
+import { supabase } from "../utils/supabase";
 import Link from "next/link";
 import Navbar from "./Navbar";
 import Pagination from "../components/pagination"
