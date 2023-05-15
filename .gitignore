@@ -1,7 +1,7 @@
 /node_modules
 /.pnp
 .pnp.js
-
+/api.js
 # testing
 /coverage
 
