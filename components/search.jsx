@@ -48,7 +48,7 @@ export default function Search() {
           setToggleSearch(true);
         }}
         className={
-          "shadow-sm shadow-black mt-[15px] xs:w-44 sm:w-64 inline-flex items-center border border-transparent bg-zinc-800 px-3 py-2 rounded-md text-sm font-sm leading-4 text-white  hover:bg-zinc-900 focus:outline-none "
+          "shadow-sm mt-[15px] xs:w-44 sm:w-64 inline-flex items-center border border-transparent bg-zinc-800 px-3 py-2 rounded-md text-sm font-sm leading-4 text-white  hover:bg-zinc-900 focus:outline-none "
         }
       >
         <svg
@@ -140,7 +140,9 @@ export default function Search() {
                             </g>
                           </g>
                         </svg>
-                        <p className="text-white ml-1 mt-0.5">No Books found!</p>
+                        <p className="text-white ml-1 mt-0.5">
+                          No Books found!
+                        </p>
                       </div>
                     ) : (
                       searchedBooks

@@ -6,9 +6,10 @@ export default function Filters({ getBooks }) {
   const [active, setActive] = useState(null);
   const [categories, setCategories] = useState([]);
   const [totalAuthors, setTotalAuthors] = useState([]);
-  const [singleAuthor, setSingleAuthor]=useState(null)
+  const [singleAuthor, setSingleAuthor] = useState(null);
   const [dropDownCategories, setDropDownCategories] = useState(false);
   const [dropDownAuthor, setDropDownAuthor] = useState(false);
+  const [loading, setLoading] = useState(false);
   const categoryOpener = useRef();
 
   const getCategoryNames = async (id) => {
@@ -53,16 +54,22 @@ export default function Filters({ getBooks }) {
     }
   };
   const get_books_by_category = async (id) => {
-    let { data, error } = await supabase
-      .from("books_duplicate")
-      .select(`*,categories(id,name)`)
-      .match({ category_id: id });
+    try {
+      setLoading(true);
+      let { data, error } = await supabase
+        .from("books_duplicate")
+        .select(`*,categories(id,name)`)
+        .match({ category_id: id });
 
-    if (error) {
-      console.error(error);
-    } else {
-      getBooks(data);
-      console.log(data)
+      if (error) {
+        console.error(error);
+      } else {
+        getBooks(data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -224,9 +231,7 @@ export default function Filters({ getBooks }) {
                 <div
                   onClick={(e) => e.stopPropagation()}
                   className={`${
-                    dropDownCategories
-                      ? "w-56  "
-                      : "w-0 "
+                    dropDownCategories ? "w-56  " : "w-0 "
                   } transition-all ease-in-out absolute right-0 z-10 mt-2 -mr-1 duration-300 origin-top-right rounded-md bg-zinc-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                 >
                   {categories.map((val, key) => (

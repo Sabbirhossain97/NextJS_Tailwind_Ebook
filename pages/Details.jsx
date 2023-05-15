@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "../api";
-import Link from "next/link";
-import Head from "next/head";
-import Home from "./Home";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from "swiper";
+import Home from "./Navbar";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -13,8 +9,12 @@ import "swiper/css/scrollbar";
 import "swiper/css/bundle";
 import Footer from "../components/Footer";
 import OpacityAnimation from "../components/Sub-components/OpacityAnimation";
-import Spinner from "../components/Sub-components/Spinner";
+import Spinner from "../components/Sub-components/Logo";
 import SlideAnimation from "../components/Sub-components/SlideAnimation";
+import RelatedBooks from "../components/RelatedBooks";
+import AuthorInfo from "../components/AuthorInfo";
+import MoreBooks from "../components/MoreBooks";
+
 export default function Details() {
   const router = useRouter();
   const query = router.query;
@@ -66,29 +66,6 @@ export default function Details() {
     }
   };
 
-  const information = [
-    {
-      field: 1,
-      gridStyles: "col-span-1",
-    },
-    {
-      field: 2,
-      gridStyles: "col-span-1",
-    },
-    {
-      field: 3,
-      gridStyles: "col-span-1",
-    },
-    {
-      field: 4,
-      gridStyles: "col-span-1",
-    },
-    {
-      field: 5,
-      gridStyles: "col-span-2",
-    },
-  ];
-
   useEffect(() => {
     showBookDetails();
   }, [bookId]);
@@ -103,9 +80,6 @@ export default function Details() {
   ) : (
     <OpacityAnimation>
       <div className="overflow-hidden">
-        <Head>
-          <title>Bangla Ebook</title>
-        </Head>
         <div>
           <Home />
           {/*new section here */}
@@ -153,7 +127,7 @@ export default function Details() {
                             </span>
                           </p>
                           <p className="text-xl font-medium text-gray-500 mt-2">
-                            Written By
+                            Author
                             <a
                               href="#"
                               className="pointer-events-none ml-[5px] text-teal-500"
@@ -204,79 +178,11 @@ export default function Details() {
                               </div>
                               {toggleTabs ? (
                                 <SlideAnimation>
-                                  <ul className=" mt-[50px] space-y-4 sm:bg-zinc-800 xs:grid xs:grid-cols-3 xs:gap-2 xs:space-y-0 sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0 lg:grid-cols-4 xl:grid-cols-5 ">
-                                    {authorBooks.map((val, key) => (
-                                      <li
-                                        key={key}
-                                        className="shadow-md shadow-black list-none scale-95 transition duration-200 hover:scale-100 hover:shadow-black hover:shadow-lg rounded-lg bg-zinc-900 py-2 px-2 text-center"
-                                      >
-                                        <div className=" space-y-6 xl:space-y-4">
-                                          <img
-                                            className="object-fit mx-auto  px-2 rounded-lg py-1"
-                                            src={val.image}
-                                            alt="error"
-                                          />
-                                          <div className=" h-12 text-sm text-center font-medium leading-6">
-                                            <h3 className="text-white text-center">
-                                              {val.title}
-                                            </h3>
-                                          </div>
-                                          <a
-                                            href={`https://sabbirontheweb.com${val.link}`}
-                                            className="block bg-zinc-700 px-2 py-2  mx-auto rounded-md text-center text-sm font-medium text-teal-500 hover:text-teal-400 sm:rounded-b-lg"
-                                            download="example.pdf"
-                                          >
-                                            Download
-                                          </a>
-                                        </div>
-                                      </li>
-                                    ))}
-                                  </ul>
+                                  <MoreBooks authorBooks={authorBooks} />
                                 </SlideAnimation>
                               ) : (
                                 <OpacityAnimation>
-                                  <div>
-                                    <div className=" px-4 py-5 sm:px-6">
-                                      <dl className="grid grid-cols-2 gap-x-4 gap-y-8 ">
-                                        {information.map((item, key) => (
-                                          <li
-                                            key={key}
-                                            className={`${item.gridStyles} list-none`}
-                                          >
-                                            <dt className="text-md font-bold text-gray-100">
-                                              {
-                                                Object.keys(
-                                                  val.authors.description
-                                                )[item.field]
-                                              }
-                                            </dt>
-
-                                            <dd className="mt-1 text-md font-normal text-gray-400">
-                                              {
-                                                val.authors.description[
-                                                  Object.keys(
-                                                    val.authors.description
-                                                  )[item.field]
-                                                ]
-                                              }
-                                            </dd>
-                                          </li>
-                                        ))}
-                                      </dl>
-                                    </div>
-                                    <div>
-                                      <div className="mt-[20px] flex justify-center">
-                                        <a
-                                          href={`https://sabbirontheweb.com${val.link}`}
-                                          className="block bg-zinc-700 px-2 py-2 rounded-md text-center text-lg sm:w-full xs:w-11/12 font-medium text-teal-500 hover:text-teal-400 hover:bg-zinc-600/80 sm:rounded-b-lg"
-                                          download
-                                          target="_blank"
-                                        >
-                                          Download Book
-                                        </a>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  <AuthorInfo val={val} />
                                 </OpacityAnimation>
                               )}
                             </div>
@@ -286,81 +192,7 @@ export default function Details() {
                             ""
                           ) : (
                             <section>
-                              <div className="bg-zinc-800 sm:overflow-hidden sm:rounded-lg">
-                                <div className="divide-y divide-zinc-600">
-                                  <div className="px-4 py-5 sm:px-6">
-                                    <h2 className="text-xl font-medium text-gray-100">
-                                      Related Books
-                                    </h2>
-                                  </div>
-                                  <div className="bg-zinc-800">
-                                    <Swiper
-                                      modules={[Navigation, Pagination, A11y]}
-                                      breakpoints={{
-                                        320: {
-                                          slidesPerView: 3,
-                                          spaceBetween: 10,
-                                        },
-                                        480: {
-                                          slidesPerView: 3,
-                                          spaceBetween: 5,
-                                        },
-                                        640: {
-                                          slidesPerView: 4,
-                                          spaceBetween: 10,
-                                        },
-                                        768: {
-                                          slidesPerView: 4,
-                                          spaceBetween: 10,
-                                        },
-                                        1024: {
-                                          slidesPerView: 5,
-                                          spaceBetween: 10,
-                                        },
-                                        1536: {
-                                          slidesPerView: 6,
-                                          spaceBetween: 10,
-                                        },
-                                      }}
-                                      style={{ marginTop: "20px" }}
-                                     
-                                    >
-                                      <ul className="">
-                                        {relatedBooks.map((val, key) => (
-                                          <SwiperSlide key={key}>
-                                            <li className="relative ">
-                                              <Link
-                                                href={{
-                                                  pathname: "/Details",
-                                                  query: {
-                                                    id: val.id,
-                                                    category_id:
-                                                      val.category_id,
-                                                    category_name:
-                                                      val.categories.name,
-                                                  },
-                                                }}
-                                              >
-                                                <div className=" group block w-full overflow-hidden rounded-md  ">
-                                                  <img
-                                                    src={val.image}
-                                                    alt="error"
-                                                    className=" rounded-md transition duration-200 pointer-events-none object-cover scale-95 group-hover:scale-100"
-                                                  />
-                                                  <button
-                                                    type="button"
-                                                    className="absolute inset-0 focus:outline-none"
-                                                  ></button>
-                                                </div>
-                                              </Link>
-                                            </li>
-                                          </SwiperSlide>
-                                        ))}
-                                      </ul>
-                                    </Swiper>
-                                  </div>
-                                </div>
-                              </div>
+                              <RelatedBooks relatedBooks={relatedBooks} />
                             </section>
                           )}
                         </div>
