@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../api";
 import Link from "next/link";
 import Navbar from "./Navbar";
-import Pagination from "../components/Pagination"
+import Pagination from "../components/pagination"
 import Authors from "../components/Authors";
 import Filters from "../components/Sub-components/Filters";
 import Footer from "../components/Footer";
