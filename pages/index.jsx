@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../api";
 import Link from "next/link";
 import Navbar from "./Navbar";
