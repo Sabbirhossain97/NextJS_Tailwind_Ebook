@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "../api";
+import { supabase } from "../utils/supabase";
 import Home from "./Navbar";
 import "swiper/css";
 import "swiper/css/navigation";
