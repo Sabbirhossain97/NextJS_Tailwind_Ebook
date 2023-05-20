@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function Authors() {
   const [authorImg, setAuthorImg] = useState(null);
@@ -22,11 +24,15 @@ export default function Authors() {
   useEffect(() => {
     getAuthorPictures();
   }, []);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
   return (
     <div>
       <div className="bg-zinc-800 py-24 sm:py-32  w-10/12 mx-auto">
-        <div className="mx-auto grid w-3/4 gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
-          <div className=" max-w-3xl col-span-1 ">
+        <div className="mx-auto grid w-11/12 md:w-3/4 gap-x-2 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
+          <div className=" max-w-3xl col-span-1 " data-aos="fade-right">
             <h2 className="text-xl md:text-3xl font-bold tracking-tight text-white px-4 border-l-8 border-teal-500">
               Featured Authors
             </h2>
@@ -39,9 +45,12 @@ export default function Authors() {
 
           <SimpleBar
             className="
-               transition duration-300 ease-in-out ml-0 md:ml-32 h-[450px]  grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
+               transition duration-300 ease-in-out ml-0 md:ml-0 xl:ml-20 h-[450px]  grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
           >
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 ">
+            <ul
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12  w-full"
+              data-aos="fade-left"
+            >
               {authorImg
                 ? authorImg.map((item, key) => (
                     <li key={key} className="ml-2 mt-2 list-none">

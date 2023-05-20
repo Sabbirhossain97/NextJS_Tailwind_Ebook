@@ -2,13 +2,14 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../utils/supabase";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Search() {
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
   const searchBarOpener = useRef();
-
+  const router = useRouter();
   const getBooksBySearch = async (e) => {
     let { data, error } = await supabase
       .from("books_duplicate")
@@ -38,6 +39,11 @@ export default function Search() {
       document.body.removeEventListener("click", closeSearchBar);
     };
   }, [searchBarOpener, setToggleSearch]);
+
+  useEffect(() => {
+    setToggleSearch(false);
+    setSearchQuery("")
+  }, [router]);
 
   return (
     <div>

@@ -9,6 +9,8 @@ import Footer from "../components/Sub-components/Footer";
 import Logo from "../components/Sub-components/Logo";
 import BooksLoading from "../components/Sub-components/Loading";
 import OpacityAnimation from "../components/Sub-components/OpacityAnimation";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function Index() {
   const [booksInfo, setBooksInfo] = useState([]);
@@ -74,6 +76,10 @@ export default function Index() {
     getBooks();
   }, [currentPage]);
 
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+  
   setTimeout(() => setDelay(1), 1500);
 
   const lastItemIndex = currentPage * itemsPerPage;
@@ -96,7 +102,7 @@ export default function Index() {
               <div className=" grid grid-cols-1 grid-rows-1 gap-x-12 gap-y-10 lg:grid-cols-11 ">
                 {/*books container /start */}
                 <Authors getBooks={getBooks} />
-                <div className=" w-full lg:col-span-8 ">
+                <div className=" w-full lg:col-span-8 " data-aos="fade-up">
                   <div className="z-0 h-full rounded-lg lg:h-full ">
                     {loading ? (
                       <BooksLoading />
