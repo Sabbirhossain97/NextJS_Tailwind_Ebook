@@ -21,7 +21,7 @@ export default function RelatedBooks({ relatedBooks }) {
             autoplay={{ delay: 1000 }}
             breakpoints={{
               320: {
-                slidesPerView: 3,
+                slidesPerView: 2,
                 spaceBetween: 10,
               },
               480: {

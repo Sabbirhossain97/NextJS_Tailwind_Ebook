@@ -30,8 +30,8 @@ export default function Authors() {
   }, []);
   return (
     <div>
-      <div className="bg-zinc-800 py-24 sm:py-32  w-10/12 mx-auto">
-        <div className="mx-auto grid w-11/12 md:w-3/4 gap-x-2 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
+      <div className="bg-zinc-800 py-24 sm:py-32 w-full mx-auto">
+        <div className="mx-auto grid w-10/12 md:w-2/3 gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3 ">
           <div className=" max-w-3xl col-span-1 " data-aos="fade-right">
             <h2 className="text-xl md:text-3xl font-bold tracking-tight text-white px-4 border-l-8 border-teal-500">
               Featured Authors

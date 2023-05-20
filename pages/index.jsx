@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-      <section className="shadow-md  text-gray-600 body-font bg-zinc-800 min-h-screen">
+      <section className="shadow-md  text-gray-600 body-font bg-zinc-800 min-h-screen w-full overflow-hidden">
         <Introduction />
         <Categories />
         <Authors />
